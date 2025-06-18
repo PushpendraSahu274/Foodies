@@ -1,0 +1,302 @@
+[
+  {
+    "order_id": "ORD001",
+    "order_date": "2025-04-01",
+    "product": {
+      "name": "Classic Cheese Burger",
+      "price": 199,
+      "quantity_ordered": 2,
+      "image": "../../images/userDashboard/burger1.jpg"
+    },
+    "total_price": 398,
+    "customer": {
+      "id": 1,
+      "name": "Ankit Sharma",
+      "email": "ankit.sharma@example.com",
+      "mobile": "9876543210",
+      "profile_picture": "../../images/costomers/c1.jpg",
+      "demo_address": "123, Model Town, Delhi"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD002",
+    "order_date": "2025-04-02",
+    "product": {
+      "name": "Paneer Butter Masala",
+      "price": 299,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/paneerButterMasala.webp"
+    },
+    "total_price": 299,
+    "customer": {
+      "id": 2,
+      "name": "Priya Verma",
+      "email": "priya.verma@example.com",
+      "mobile": "9123456780",
+      "profile_picture": "../../images/costomers/c2.jpg",
+      "demo_address": "45, Gomti Nagar, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD003",
+    "order_date": "2025-04-02",
+    "product": {
+      "name": "Margherita Pizza",
+      "price": 249,
+      "quantity_ordered": 3,
+      "image": "../../images/userDashboard/MargheritaPizza.webp"
+    },
+    "total_price": 747,
+    "customer": {
+      "id": 3,
+      "name": "Ravi Kumar",
+      "email": "ravi.kumar@example.com",
+      "mobile": "9988776655",
+      "profile_picture": "../../images/costomers/c3.jpg",
+      "demo_address": "678, Sector 12, Noida"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD004",
+    "order_date": "2025-04-03",
+    "product": {
+      "name": "Veg Hakka Noodles",
+      "price": 199,
+      "quantity_ordered": 2,
+      "image": "../../images/userDashboard/VegHakkaNoodles.jpg"
+    },
+    "total_price": 398,
+    "customer": {
+      "id": 4,
+      "name": "Sneha Yadav",
+      "email": "sneha.yadav@example.com",
+      "mobile": "9812345678",
+      "profile_picture": "../../images/costomers/c4.jpg",
+      "demo_address": "210, Aliganj, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD005",
+    "order_date": "2025-04-03",
+    "product": {
+      "name": "Mango Smoothie",
+      "price": 149,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/MangoSmoothie.jpg"
+    },
+    "total_price": 149,
+    "customer": {
+      "id": 5,
+      "name": "Aman Khan",
+      "email": "aman.khan@example.com",
+      "mobile": "9900112233",
+      "profile_picture": "../../images/costomers/c5.jpg",
+      "demo_address": "88, Park Street, Kolkata"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD006",
+    "order_date": "2025-04-04",
+    "product": {
+      "name": "Pepperoni Pizza",
+      "price": 299,
+      "quantity_ordered": 2,
+      "image": "../../images/userDashboard/PepperoniPizza.jpg"
+    },
+    "total_price": 598,
+    "customer": {
+      "id": 1,
+      "name": "Ankit Sharma",
+      "email": "ankit.sharma@example.com",
+      "mobile": "9876543210",
+      "profile_picture": "../../images/costomers/c1.jpg",
+      "demo_address": "123, Model Town, Delhi"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD007",
+    "order_date": "2025-04-04",
+    "product": {
+      "name": "Momo Nepal",
+      "price": 9,
+      "quantity_ordered": 10,
+      "image": "../../images/userDashboard/Momonepal.jpg"
+    },
+    "total_price": 90,
+    "customer": {
+      "id": 2,
+      "name": "Priya Verma",
+      "email": "priya.verma@example.com",
+      "mobile": "9123456780",
+      "profile_picture": "../../images/costomers/c2.jpg",
+      "demo_address": "45, Gomti Nagar, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD008",
+    "order_date": "2025-04-05",
+    "product": {
+      "name": "Paneer Butter Masala",
+      "price": 299,
+      "quantity_ordered": 2,
+      "image": "../../images/userDashboard/paneerButterMasala.webp"
+    },
+    "total_price": 598,
+    "customer": {
+      "id": 3,
+      "name": "Ravi Kumar",
+      "email": "ravi.kumar@example.com",
+      "mobile": "9988776655",
+      "profile_picture": "../../images/costomers/c3.jpg",
+      "demo_address": "678, Sector 12, Noida"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD009",
+    "order_date": "2025-04-06",
+    "product": {
+      "name": "Veg Hakka Noodles",
+      "price": 199,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/VegHakkaNoodles.jpg"
+    },
+    "total_price": 199,
+    "customer": {
+      "id": 4,
+      "name": "Sneha Yadav",
+      "email": "sneha.yadav@example.com",
+      "mobile": "9812345678",
+      "profile_picture": "../../images/costomers/c4.jpg",
+      "demo_address": "210, Aliganj, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD010",
+    "order_date": "2025-04-06",
+    "product": {
+      "name": "Mango Smoothie",
+      "price": 149,
+      "quantity_ordered": 3,
+      "image": "../../images/userDashboard/MangoSmoothie.jpg"
+    },
+    "total_price": 447,
+    "customer": {
+      "id": 5,
+      "name": "Aman Khan",
+      "email": "aman.khan@example.com",
+      "mobile": "9900112233",
+      "profile_picture": "../../images/costomers/c5.jpg",
+      "demo_address": "88, Park Street, Kolkata"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD011",
+    "order_date": "2025-04-07",
+    "product": {
+      "name": "Classic Cheese Burger",
+      "price": 199,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/burger1.jpg"
+    },
+    "total_price": 199,
+    "customer": {
+      "id": 3,
+      "name": "Ravi Kumar",
+      "email": "ravi.kumar@example.com",
+      "mobile": "9988776655",
+      "profile_picture": "../../images/costomers/c3.jpg",
+      "demo_address": "678, Sector 12, Noida"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD012",
+    "order_date": "2025-04-08",
+    "product": {
+      "name": "Pepperoni Pizza",
+      "price": 299,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/PepperoniPizza.jpg"
+    },
+    "total_price": 299,
+    "customer": {
+      "id": 2,
+      "name": "Priya Verma",
+      "email": "priya.verma@example.com",
+      "mobile": "9123456780",
+      "profile_picture": "../../images/costomers/c2.jpg",
+      "demo_address": "45, Gomti Nagar, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD013",
+    "order_date": "2025-04-08",
+    "product": {
+      "name": "Margherita Pizza",
+      "price": 249,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/MargheritaPizza.webp"
+    },
+    "total_price": 249,
+    "customer": {
+      "id": 1,
+      "name": "Ankit Sharma",
+      "email": "ankit.sharma@example.com",
+      "mobile": "9876543210",
+      "profile_picture": "../../images/costomers/c1.jpg",
+      "demo_address": "123, Model Town, Delhi"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD014",
+    "order_date": "2025-04-09",
+    "product": {
+      "name": "Paneer Butter Masala",
+      "price": 299,
+      "quantity_ordered": 1,
+      "image": "../../images/userDashboard/paneerButterMasala.webp"
+    },
+    "total_price": 299,
+    "customer": {
+      "id": 4,
+      "name": "Sneha Yadav",
+      "email": "sneha.yadav@example.com",
+      "mobile": "9812345678",
+      "profile_picture": "../../images/costomers/c4.jpg",
+      "demo_address": "210, Aliganj, Lucknow"
+    },
+    "status": "pending"
+  },
+  {
+    "order_id": "ORD015",
+    "order_date": "2025-04-10",
+    "product": {
+      "name": "Momo Nepal",
+      "price": 9,
+      "quantity_ordered": 5,
+      "image": "../../images/userDashboard/Momonepal.jpg"
+    },
+    "total_price": 45,
+    "customer": {
+      "id": 5,
+      "name": "Aman Khan",
+      "email": "aman.khan@example.com",
+      "mobile": "9900112233",
+      "profile_picture": "../../images/costomers/c5.jpg",
+      "demo_address": "88, Park Street, Kolkata"
+    },
+    "status": "pending"
+  }
+]

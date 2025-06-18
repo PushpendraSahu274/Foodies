@@ -1,0 +1,232 @@
+/* products section */
+#allProducts {
+  margin-top: 7rem;
+}
+.product-card {
+  background-color: rgba(75, 8, 8, 0.9);
+}
+.navbar-toggler-icon {
+  /* font-size: 0.3rem; */
+  border: none;
+  box-shadow: none;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+.filter-heading {
+  font-size: 1rem;
+  color: brown;
+}
+.form-select:focus {
+  /* background-color: var(--bs-body-bg); */
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.3rem rgba(240, 14, 127, 0.2);
+}
+.fiter-submit-btn {
+  font-size: 0.9rem;
+  color: white;
+}
+.fiter-submit-btn:hover {
+  background-color: white;
+  color: brown;
+  border: 1px solid brown;
+}
+/* product card */
+.add2cartbtn {
+  width: 100%;
+  height: fit-content;
+  padding: 0.5rem;
+  border-radius: 0px 0px 0.5rem 0.5rem;
+  border: none;
+  background-color: brown;
+  font-weight: bold;
+  color: white;
+  transition: 0.5s;
+  border: 1px solid brown;
+  font-size: 0.8rem;
+}
+.add2cartbtn:hover {
+  background-color: rgb(255, 255, 255);
+  font-weight: bold;
+  color: brown;
+  border: 1px solid brown;
+  box-shadow: 0px 0px 5px rgba(165, 42, 42, 0.511);
+
+  transition: 0.5s;
+}
+
+.product-card,
+.cart-product-card {
+  position: relative;
+  background-color: white;
+  box-shadow: 0px 0px 1px brown;
+  transition: 0.5s;
+}
+
+.product-card:hover,
+.cart-product-card:hover {
+  position: relative;
+
+  box-shadow: 0px 0px 5px rgba(255, 147, 147, 0.511);
+  transition: 0.5s;
+  background-color: rgba(225, 133, 133, 0.06);
+}
+/*
+.ribbon {
+  width: 80%;
+  padding: 1rem; 
+  height: 1rem;
+  position: absolute;
+  background-color: transparent;
+  border-radius: 0px 10px 10px 0px;
+}
+.ri-container {
+  background-color: transparent;
+  width: 15%;
+  height: 1rem;
+}
+.ri-up {
+  border-bottom-right-radius: 100%;
+  background-color: red;
+   background-color: blue; 
+}
+.ri-down {
+  border-top-right-radius: 100%;
+   background-color: blue; 
+  background-color: red;
+}
+*/
+.Product-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: brown;
+}
+.product-desc {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+.product-cat {
+  font-size: 0.8rem;
+}
+.product-price-details {
+  font-size: 0.8rem;
+}
+.card-img-top {
+  width: 100%;
+  max-height: 15rem;
+  border-radius: 0.5rem;
+}
+/* my cart container */
+.cartContainer,
+.my-card-container {
+  margin-top: 7.5rem;
+  padding: 1rem;
+  /* background-color: red; */
+  min-height: 100vh;
+}
+.cartContainer img {
+  width: 90%;
+  height: 17rem;
+}
+.mt-6 {
+  margin-top: 7.56rem;
+}
+.RemoveBtn,
+.OrderBtn {
+  border: none;
+  color: white;
+  background-color: brown;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  /* width: 48%; */
+}
+
+.cart-product-card {
+  /* min-width: 300px; */
+  /* border: 2px solid brown; */
+  border-top: none;
+  border-left: none;
+  box-shadow: 1px 1px 5px rgb(218, 142, 142);
+  height: fit-content;
+  /* background-color: red; */
+  padding: 0.5rem !important;
+}
+.cart-product-card img {
+  height: 300px !important;
+}
+.bg-brown {
+  background-color: brown !important;
+  color: white;
+}
+.bg-level-2 {
+  background-color: rgba(213, 57, 57, 0.633) !important;
+}
+/* accordian one */
+.quantity,
+.accordion {
+  font-size: 0.8rem !important;
+}
+.accordion-button {
+  background-color: brown !important;
+  color: white;
+  padding: 0.5rem !important;
+  font-size: 0.8rem !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: brown !important;
+  color: white;
+}
+.accordion-button:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: 0px 0px 0px 5px rgba(165, 42, 42, 0.188);
+}
+/* accordian two */
+
+.accordion-button {
+  background-color: brown !important;
+  color: white;
+}
+.accordion-button2:not(.collapsed) {
+  background-color: brown !important;
+  color: white;
+}
+.accordion-button2:focus {
+  z-index: 3;
+  outline: 0;
+  /* background-color: rgba(244, 21, 21, 0.766) !important; */
+
+  box-shadow: 0px 0px 0px 5px rgba(236, 31, 31, 0.193);
+}
+
+.status-line {
+  width: 0.3rem;
+  margin-left: 0.4rem;
+  height: 0.3rem;
+  padding: 0.2rem;
+  margin-top: 0.3rem;
+}
+.line-status {
+  margin-bottom: 0.5rem;
+}
+.accordion-body {
+  max-height: fit-content; /* Set a maximum height */
+  overflow-y: auto; /* Enable scrolling if content exceeds height */
+}
+.userProfile .card-body .card-title {
+  font-size: 1rem !important;
+}
+.userProfile .card-body p .btn {
+  font-size: 0.9rem !important;
+}
+.defaultBtn {
+  font-size: 0.8rem !important;
+}
+.address {
+  font-size: 0.8rem !important;
+  line-height: 1.2rem;
+}

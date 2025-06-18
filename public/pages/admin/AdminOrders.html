@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin-login</title>
+    <!-- fontawesome cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- bootsrap cdn -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <!-- our own css -->
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/fuild.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="../../css/user.css" />
+    <link rel="stylesheet" href="adminFluid.css" />
+  </head>
+  <body>
+    <div class="container-fluid smallFont px-0">
+      <!-- modals -->
+      <!-- update modal starts-->
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="admin-profile-update-modal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Update Admin Details
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form action="">
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label
+                        for="exampleFormControlInput4"
+                        class="form-label text-primary-color"
+                        >Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="exampleFormControlInput4"
+                        placeholder="Enter Your Name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label for="email" class="form-label text-primary-color"
+                        >Email</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="Enter email address"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label for="pwd" class="form-label text-primary-color"
+                        >Password</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="pwd"
+                        placeholder="Enter new password"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label for="about" class="form-label text-primary-color"
+                        >About</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="about"
+                        placeholder="Enter Your about "
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <label
+                        for="Landmark"
+                        class="form-label text-primary-color"
+                        >Profile Picture</label
+                      >
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="dp"
+                        accept="image/*"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-success">
+                  update Details
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- update modal ends  -->
+      <!-- all modals ends -->
+      <!-- header section starts -->
+      <header class="" id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+          <div class="container">
+            <a class="navbar-brand" href="../../index.html"
+              ><img src="../../images/logo.png" alt=""
+            /></a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <!-- here i added ms-auto class to do space between of the items -->
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a
+                    class="nav-link fw-bold"
+                    aria-current="page"
+                    href="adminDashboard.html"
+                  >
+                    Products</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link fw-bold" href="costomers.html"
+                    >Customers</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fw-bold" href="#"> Orders</a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link fw-bold"
+                    href="#"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasScrolling"
+                    aria-controls="offcanvasScrolling"
+                    >Profile</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="btn phoneBtn fw-bold"
+                    href="../../index.html"
+                    tabindex="-1"
+                    >Logout</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- header section starts -->
+      <!-- sidebar starts -->
+      <div class="row mt-5 pt-5">
+        <div class="col-12 mt-5">
+          <div
+            class="offcanvas offcanvas-start"
+            data-bs-scroll="true"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="offcanvasScrolling"
+            aria-labelledby="offcanvasScrollingLabel"
+          >
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+                Admin Details
+              </h5>
+              <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body">
+              <!-- user profile summary starts-->
+              <div class="row">
+                <div class="col-sm-12 my-2">
+                  <div class="userProfile bg-level-2 p-1 rounded shadow-lg">
+                    <div class="card p-3 bg-level-2" style="width: 100%">
+                      <img
+                        src="../../images/review/review-1.jpg"
+                        class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"
+                        alt="..."
+                      />
+                      <div class="card-body">
+                        <h5 class="card-title text-center text-white">
+                          Admin name
+                        </h5>
+                        <h5
+                          class="card-title text-center fs-5 fw-normal opacity-75 text-white"
+                        >
+                          admin@gmail.com
+                        </h5>
+                        <p class="text-center">
+                          <a
+                            href="#"
+                            class="btn p-0 fs-5 px-2 py-1 text-dark bg-white btn-lg shadow-lg"
+                            data-bs-toggle="modal"
+                            data-bs-target="#admin-profile-update-modal"
+                            >update profile</a
+                          >
+                        </p>
+                      </div>
+
+                      <div class="row address">
+                        <div class="col-sm-12 mt-3">
+                          <p class="lh-lg-lg">
+                            <span class="fw-bold bg-brown p-2 rounded"
+                              >Contact Number</span
+                            >
+                            <br />
+                            <br />
+                            <span class="text-light">+91 9807689909 </span>
+                          </p>
+                          <p class="lh-lg-lg">
+                            <span class="fw-bold bg-brown p-2 rounded"
+                              >About</span
+                            >
+                            <br />
+                            <br />
+                            <span class="text-light">
+                              karmveer sochte nhi ki kaise hoga bass woh karte
+                              hain
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- user profile summary ends-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- sidebar ends -->
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12" id="orderDetailsModal">
+            <!-- Offcanvas Template (Place it once in your HTML body) -->
+            <!-- Bootstrap Offcanvas for Order Details -->
+            <div
+              class="offcanvas offcanvas-end"
+              tabindex="-1"
+              id="offcanvasWithBackdrop"
+              aria-labelledby="offcanvasLabel"
+            >
+              <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="offcanvasLabel">
+                  Order Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="offcanvas-body" id="offcanvas-body"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="col-sm-12 text-white opacity-100 py-1 p-lg-2 rounded mb-3 bg-primary-color"
+          >
+            <i class="fa-solid fa-gift"></i> Orders
+          </div>
+          <div class="col-sm-12 table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Order Id</th>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Frequency</th>
+                  <th scope="col">Total Price</th>
+                  <th scope="col">Product Image</th>
+                  <th scope="col">Customer Id</th>
+                  <th scope="col">Customer Name</th>
+                  <th scope="col ">order status</th>
+                  <th scope="col ">Details</th>
+                </tr>
+              </thead>
+              <tbody id="customers-orders-container">
+                <tr>
+                  <td scope="col">Order Id</td>
+                  <td scope="col">Product Name</td>
+                  <td scope="col">Frequency</td>
+                  <td scope="col">Total Price</td>
+                  <td scope="col">Product Image</td>
+                  <td scope="col">Customer Id</td>
+                  <td scope="col">Customer Name</td>
+                  <td scope="col "><span class="text-info">pending</span></td>
+
+                  <td scope="col ">
+                    <button class="btn btn-sm btn-danger">view</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- footer starts -->
+      <footer class="p-5">
+        <div class="container d-flex flex-column align-items-center">
+          <div
+            class="col-12 col-mg-10 col-lg-8 d-flex justify-content-evenly flex-wrap"
+          >
+            <span class="text-white fw-bold opacity-75">Register</span>
+            <span class="text-white fw-bold opacity-75">Forum</span>
+            <span class="text-white fw-bold opacity-75">Affilliate</span>
+            <span class="text-white fw-bold opacity-75">FAQ</span>
+          </div>
+          <div
+            class="col-12 col-mg-10 col-lg-8 d-flex justify-content-evenly my-3 flex-wrap"
+          >
+            <a href="#" class="text-white fs-2"
+              ><i class="fa-brands fa-facebook"></i
+            ></a>
+            <a href="#" class="text-white fs-2"
+              ><i class="fa-brands fa-square-x-twitter"></i
+            ></a>
+            <a href="#" class="text-white fs-2"
+              ><i class="fa-brands fa-youtube"></i
+            ></a>
+            <a href="#" class="text-white fs-2"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+            <a href="#" class="text-white fs-2"
+              ><i class="fa-brands fa-square-instagram"></i
+            ></a>
+          </div>
+          <div
+            class="col-12 col-mg-10 col-lg-8 d-flex flex-column align-items-center justify-content-center mt-5"
+          >
+            <p class="text-white fw-bold opacity-75">
+              2025. Foodies.All rights reserved
+            </p>
+            <p class="text-white fw-bold opacity-50">developed by Raj Mishra</p>
+          </div>
+        </div>
+      </footer>
+      <!-- footer ends -->
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <!-- my oun javaScript file -->
+    <script src="../../js/app.js"></script>
+    <script src="../../js/admin.js"></script>
+  </body>
+</html>

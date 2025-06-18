@@ -1,0 +1,81 @@
+@media screen and (max-width: 991px) {
+  .card-img-top {
+    width: 100%;
+    max-height: 10rem;
+    border-radius: 0.5rem;
+  }
+  .hero {
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .numbersCountContainer {
+    margin-top: 50px;
+  }
+  .navbar-brand img {
+    width: 6rem;
+  }
+}
+@media screen and (max-width: 806px) {
+  .absheroimg {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .smallFont {
+    font-size: 0.9rem;
+  }
+  .smallplace::placeholder {
+    font-size: 0.9rem;
+  }
+  .hero {
+    background-size: 100% 50%;
+  }
+  .hero .container-fluid {
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    width: 100%;
+    /* padding-bottom: 3rem; */
+    position: relative;
+    height: 100%;
+  }
+  .numbersCountContainer {
+    /* transform: translateY(3rem); */
+    position: absolute;
+    /* top: 100px; */
+    bottom: 0;
+  }
+  .left-hero {
+    margin-top: 8rem;
+  }
+  .left-hero h1 {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 579px) {
+  .hero .container-fluid {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    padding-bottom: 3rem;
+    margin: auto;
+    /* backdrop-filter: blur(5px); */
+  }
+  .carousel-item {
+    min-height: 400px;
+  }
+  .carousel-caption {
+    min-height: 70rem;
+  }
+  .hero {
+    background: url(../images/bg/herobg2.jpg);
+    background-size: cover;
+  }
+  .numbersCountContainer span {
+    font-size: 1.2rem;
+  }
+  .numbersCountContainer .numSave {
+    font-size: 0.7rem;
+  }
+  .OrderNowConainer h1 {
+    font-size: 1.3rem !important;
+    /* background-color: red; */
+  }
+}

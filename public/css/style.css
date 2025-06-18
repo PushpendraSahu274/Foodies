@@ -1,0 +1,335 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+:active,
+:hover,
+:focus {
+  outline: 0 !important;
+  outline-offset: 0;
+}
+.active {
+  background-color: rgba(174, 90, 90, 0.325);
+  border-radius: 1rem;
+  color: brown !important;
+}
+.nav-item {
+  /* padding: 0.5rem 0.5rem; */
+}
+a,
+a:hover {
+  text-decoration: none;
+}
+a:hover {
+  color: var(--primary-color);
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* variable Define */
+:root {
+  --primary-color: #a82c48;
+  --secondry-color: #43121d;
+  --third-color: #f98169;
+  --white-color: #fff;
+  --text-color: #555;
+  --text-gray: #999;
+  --black-color: #000;
+  --primary-font: "Roboto", sans-serif;
+  --secondry-font: "Quicksand", sand-serif;
+}
+html {
+  overflow-x: hidden;
+
+  scroll-behavior: smooth;
+}
+body {
+  /* font-family: var(--primary-font); */
+  font-size: 100%;
+  font-weight: 400;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+}
+/* ==============custom scrollbar============ */
+::-webkit-scrollbar {
+  width: 0.625rem;
+}
+::-webkit-scrollbar-track {
+  background: var(--white-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+/* header */
+header {
+  position: fixed;
+  background-color: green;
+  top: 0px;
+  width: 100%;
+  z-index: 2;
+}
+/* navbar css */
+.nav-link {
+  color: var(--primary-color);
+  font-weight: 500;
+  /* font-size: 0.9rem; */
+  letter-spacing: 0.05rem;
+  margin-left: 1rem;
+}
+.nav-link:hover {
+  /* color:  */
+}
+.phoneBtn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 5px;
+  border: 2px solid var(--primary-color);
+  opacity: 0.5s;
+}
+button,
+.btn {
+  border-radius: 5px !important;
+}
+.phoneBtn:hover {
+  border: 2px solid var(--primary-color);
+  background-color: white;
+  opacity: 0.5s;
+  color: var(--primary-color);
+}
+/* hero section */
+.hero {
+  width: 100%;
+  height: fit-content;
+  min-height: 100px;
+  background: red;
+  background: url("../images/bg/bg-1.jpg");
+  background-size: cover;
+  position: relative !important;
+  /* margin-top: 10rem; */
+  /* position: relative; */
+}
+.left-hero {
+  margin-top: 15rem;
+
+  /* background-color: red; */
+}
+.heroBtn {
+  width: fit-content;
+  background-color: var(--white-color);
+  color: var(--primary-color);
+}
+.heroBtn:hover {
+  width: fit-content;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}
+.numSave {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+.numbersCountContainer {
+  margin-top: 200px;
+}
+.numbersCount {
+  background-color: var(--primary-color);
+}
+/* about */
+.OrderNowConainer {
+  /* width: 100%; */
+  height: fit-content;
+  background-image: url("../images/bg/bg-2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 10% 0px;
+}
+.OrderNowConainer h1 {
+  /* margin-top: 10%; */
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+/* Explore our foods */
+.CardBtn {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: 2px solid var(--primary-color);
+
+  border-radius: 0px;
+}
+.card-title {
+  font-size: 1rem;
+}
+.beforeDiscount {
+  text-decoration: line-through;
+  color: gray;
+}
+.price {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.CardBtn:hover {
+  border: 2px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+}
+.card {
+  border: none;
+}
+/* review */
+.reviewer-img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 2.5rem;
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+}
+.carousel-caption {
+  top: 130px;
+}
+.carousel-item {
+  min-height: 300px;
+}
+.carousel-caption h5 {
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+#reviews {
+  background-color: var(--primary-color);
+}
+.carousel-indicators {
+  bottom: -50px;
+}
+/* faqs */
+#FAQS .container-fluid {
+  height: 150px;
+  background: url("../images/bg/bg-3.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  margin-top: 100px;
+}
+#FAQS .container-fluid .row {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+.faqs-btn {
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  font-weight: bold;
+  transform: 0.3s;
+}
+.faqs-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: 0.3s;
+}
+.newsleterInput {
+  padding: 0.5rem 0.5rem;
+  width: 80%;
+}
+.newsleterInputBtn {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-color);
+  background-color: var(--primary-color);
+  font-weight: bold;
+  color: var(--white-color);
+}
+.newsleterHeading {
+  color: var(--secondry-color);
+}
+footer {
+  margin-top: 100px;
+  width: 100%;
+  height: fit-content;
+  background-color: var(--primary-color);
+}
+.numbersCountContainer span {
+  font-size: 1.5rem;
+}
+.numbersCountContainer .numSave {
+  font-size: 1rem;
+}
+/* login-modal */
+.login-heading-modal {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.text-primary-color {
+  color: var(--primary-color);
+}
+.bg-primary-color {
+  background-color: var(--primary-color);
+}
+.form-control:focus {
+  /* background-color: var(--bs-body-bg); */
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.3rem rgba(240, 14, 127, 0.2);
+}
+.accordion-button {
+  background-color: rgb(255, 255, 255) !important;
+  color: rgb(0, 0, 0);
+  padding: 0.5rem !important;
+  font-size: 0.8rem !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--primary-color) !important;
+  color: white;
+}
+.accordion-button:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: 0px 0px 0px 5px rgba(235, 56, 56, 0.188);
+}
+.faqHead {
+  font-size: 1rem !important;
+  padding: 1rem !important;
+}
+footer p {
+  font-size: 0.8rem;
+  font-weight: 500 !important;
+}
+
+.absheroimg {
+  position: absolute;
+  background-color: red;
+  width: fit-content;
+  right: -100%;
+  top: -8rem;
+  animation: move 4s linear;
+}
+.absheroimg img {
+  width: 20rem;
+}
+@keyframes move {
+  0% {
+    right: 20%;
+    top: -8rem;
+  }
+  25% {
+    right: 15%;
+    top: -8rem;
+  }
+  50% {
+    right: 10%;
+    top: -8rem;
+  }
+  75% {
+    right: 0%;
+    top: -8rem;
+  }
+  100% {
+    right: -100%;
+    top: -8rem;
+  }
+}
