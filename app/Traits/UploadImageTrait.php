@@ -8,10 +8,10 @@ trait UploadImageTrait
 {
     public function UploadImage(UploadedFile $file, string $directoryName){
         
-        $fileName = $directoryName.'/'.now()->format('d-m-Y') . '_' .uniqid().'.'. $file->getClientOriginalExtension();
+        $fileName = now()->format('d-m-Y') . '_' .uniqid().'.'. $file->getClientOriginalExtension();
 
-        $file->move(public_path($directoryName),$fileName);
+        $path = $file->storeAs($directoryName, $fileName, 'public');
 
-        return $fileName;
+        return $path;
     }
 }

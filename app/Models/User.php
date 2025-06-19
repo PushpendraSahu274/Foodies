@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function getProfileAttribute(){
         if($this->profile_path){
-            $profile_path = env('APP_URL').$this->profile_path;
+            $profile_path = env('APP_URL').'storage/'.$this->profile_path;
         }
         else{
             $profile_path = null;

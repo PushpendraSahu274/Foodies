@@ -130,20 +130,38 @@
                                     flavor to your doorstep.
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6 d-flex gap-3 mt-2">
-                                    <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-2"
-                                        data-bs-toggle="modal" data-bs-target="#loginUser" href="#"
-                                        tabindex="-1">Login Now
-                                        <i class="fa-solid fa-right-to-bracket fs-4"></i></a>
+                            @guest
+                                <div class="row">
+                                    <div class="col-sm-6 d-flex gap-3 mt-2">
+                                        <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-2"
+                                            data-bs-toggle="modal" data-bs-target="#loginUser" href="#"
+                                            tabindex="-1">
+                                            Login Now
+                                            <i class="fa-solid fa-right-to-bracket fs-4"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6 mt-2">
+                                        <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-1"
+                                            href="#" tabindex="-1" data-bs-toggle="modal"
+                                            data-bs-target="#registerUser">
+                                            Register Now
+                                            <i class="fa-solid fa-circle-user pl-2 fs-4"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 mt-2">
-                                    <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-1"
-                                        href="#" tabindex="-1" data-bs-toggle="modal"
-                                        data-bs-target="#registerUser">Register Now
-                                        <i class="fa-solid fa-circle-user pl-2 fs-4"></i></a>
+                            @endguest
+
+                            @auth
+                                <div class="row">
+                                    <div class="col-sm-6 d-flex gap-3 mt-2">
+                                        <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-2"
+                                            href="{{ Auth::user()->role === 'admin' ? route('admins.dashboard') : route('users.dashboard') }}">
+                                            My Account
+                                            <i class="fa-solid fa-right-to-bracket fs-4"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endauth
                         </div>
                         <div class="col-12 display-none display-md-block display-lg-block col-md-6 col-lg-6"></div>
                     </div>
@@ -196,7 +214,7 @@
                 aria-label="Close"
               ></button> -->
                     </div>
-                    <form action="{{ route('login') }}" id="modal-user-login-form" method="post">
+                    <form action="{{ route('login') }}" id="modal-user-login-form">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -227,7 +245,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal user forget password -->
+        <!-- Modal user Get OPT -->
         <div class="modal fade" id="ForgetPwdUser" data-bs-backdrop="static" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog .modal-dialog-scrollable">
@@ -243,12 +261,12 @@
               aria-label="Close"
             ></button> -->
                     </div>
-                    <form action="" id="modal-user-login-form">
+                    <form action="" id="modal-user-reset-form">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="LoginEmail" class="form-label text-primary-color">Email</label>
                                 <input type="email" class="form-control" id="LoginEmail"
-                                    placeholder="Enter your email" required />
+                                    placeholder="Enter your email" required name="email" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -263,6 +281,51 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal user virigy Otp -->
+        <div class="modal fade" id="verifyOtpModal" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog .modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title login-heading-modal text-center w-full" id="staticBackdropLabel">
+                            Verify Otp
+                        </h5>
+                        <!-- <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button> -->
+                    </div>
+                    <form action="" id="modal-user-verifyOtp-form">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="verifiedMail" class="form-label text-primary-color">Email</label>
+                                <input type="email" class="form-control" id="verifiedMail"
+                                    placeholder="Enter your email" required name="email" readonly />
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="verifyOtp" class="form-label text-primary-color">Otp</label>
+                                <input type="string" class="form-control" id="verifyOtp"
+                                    placeholder="Enter your otp" required name="otp" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-danger" id="modal-login-button">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal user Register-->
         <div class="modal fade" id="registerUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -315,13 +378,13 @@
                             <div class="mb-3">
                                 <label for="profile-picture" class="form-label text-primary-color">Profile
                                     Picture</label>
-                                <input type="file" class="form-control" id="profile-picture" name="profile_path"
-                                   />
+                                <input type="file" class="form-control" id="profile-picture"
+                                    name="profile_path" />
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label text-primary-color">Address</label>
                                 <input type="text" class="form-control" id="address"
-                                    placeholder="Enter address" name="address"/>
+                                    placeholder="Enter address" name="address" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -779,6 +842,76 @@
     </script>
     <!-- my oun javaScript file -->
     {{-- <script src="js/app.js"></script> --}}
+
+    {{-- jquery cdn --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        $('#modal-user-reset-form').on('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: '/get-otp',
+                type: 'POST',
+                data: formData,
+                processData: false, // ← Correct prop name
+                contentType: false, // ← Correct prop name
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#modal-user-reset-form')[0].reset();
+                    $('#loginUser').modal('hide');
+                    $('#verifiedMail').val(response.data.email);
+                    $('#verifyOtpModal').modal('show');
+                },
+                error: function(xhr) {
+                    const msg = xhr.responseJSON?.message || 'Something went wrong';
+                    Swal.fire(msg);
+                }
+            });
+        });
+    </script>
+
+    {{-- verify otp script --}}
+    <script>
+        $('#modal-user-verifyOtp-form').on('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: '/verify-otp',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    Swal.fire('Success', response.message, 'success')
+                        .then(() => {
+                            $('#modal-user-verifyOtp-form')[0].reset();
+                            $('#verifyOtpModal').modal('hide');
+                            window.location = response.redirect;
+                        });
+                },
+                error: function(xhr) {
+                    const msg = xhr.responseJSON?.message || 'Something went wrong';
+                    Swal.fire('Error', msg, 'error');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

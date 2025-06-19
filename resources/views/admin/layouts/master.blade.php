@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>@yield('page-title')</title>
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
     <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -79,7 +79,7 @@
                                             name="photo" />
 
                                         {{-- Preview Image -- --}}
-                                        <img src="{{ $profile->profile_path }}" alt="User image" height="70px"
+                                        <img src="{{ asset('storage/'.$profile->profile_path) }}" alt="User image" height="70px"
                                             width="70px" id='previewImage'>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                             <div class="col-sm-12 my-2">
                                 <div class="userProfile bg-level-2 p-1 rounded shadow-lg">
                                     <div class="card p-3 bg-level-2" style="width: 100%">
-                                        <img src="{{ $profile->profile }}"
+                                        <img src="{{ asset('storage/'.$profile->profile_path) }}"
                                             class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"
                                             alt="..." 
                                             id="profileImage"/>
@@ -228,21 +228,16 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#dp').on('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#previewImage').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-    </script>
+     <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('js/previewImage.js')}}"> </script>
+    <script> previewImage('previewImage','dp')</script>
     @yield('admin-script-content')
 
 </body>

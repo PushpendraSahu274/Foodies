@@ -13,32 +13,31 @@
                     <h5 class="modal-title text-primary-color fw-bold" id="addProductModalLabel">Add Product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <form id="addProductForm" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-12 mb-3">
                                 <label for="productName" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="productName" name="name"
-                                    placeholder="Enter the product name" required />
+                                <input type="text" class="form-control" id="productName" name="title"
+                                    placeholder="Enter the product name" />
                             </div>
 
                             <div class="col-sm-12 mb-3">
                                 <label for="productDescription" class="form-label">Product Description</label>
                                 <input type="text" class="form-control" id="productDescription" name="description"
-                                    placeholder="Enter the product description" required />
+                                    placeholder="Enter the product description" />
                             </div>
 
                             <div class="col-sm-6 mb-3">
                                 <label for="pPrice" class="form-label">Product Price</label>
                                 <input type="number" class="form-control" id="pPrice" name="price"
-                                    placeholder="Enter price in ₹" required />
+                                    placeholder="Enter price in ₹" />
                             </div>
 
                             <div class="col-sm-6 mb-3">
                                 <label for="pdiscount" class="form-label">Discount</label>
                                 <input type="number" class="form-control" id="pdiscount" name="discount"
-                                    placeholder="Enter discount in ₹" required />
+                                    placeholder="Enter discount in ₹" />
                             </div>
 
                             <div class="col-sm-6 mb-3">
@@ -51,21 +50,29 @@
 
                             <div class="col-sm-6 mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <select class="form-select" id="category" name="category">
-                                    <option value="veg">Veg</option>
-                                    <option value="non-veg">Non-Veg</option>
+                                <select class="form-select" id="category" name="meal_category_id">
+                                    <option value="">---Select---</option>
+                                    @foreach ($meal_categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->category_name }} </option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <div class="col-sm-12 mb-3">
                                 <label for="pieces" class="form-label">Available Pieces</label>
-                                <input type="number" class="form-control" id="pieces" name="pieces"
-                                    placeholder="Enter available quantity" required />
+                                <input type="number" class="form-control" id="pieces" name="quantity"
+                                    placeholder="Enter available quantity" />
                             </div>
 
                             <div class="col-sm-12 mb-3">
                                 <label for="product-image" class="form-label">Product Image</label>
-                                <input type="file" class="form-control" id="product-image" name="image" required />
+                                <input type="file" class="form-control" id="addProductImage" name="photo"
+                                    accept="image/*" />
+                                >
+
+                                {{-- Preview Add Product Image --}}
+                                <img src="" alt="none" class="d-none" id="previewAddProductImage" height="70px"
+                                    width="70px" />
                             </div>
                         </div>
                     </div>
@@ -81,13 +88,100 @@
         </div>
     </div>
     <!-- add Product Modal end -->
+
+    <!-- Update Product Modal Start -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content smallfont">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-color fw-bold" id="editProductModalLabel">Edit Product Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productEditForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="productName"
+                                    placeholder="Enter the product name" name="title" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="productDesc" class="form-label">Product Description</label>
+                                <input type="text" class="form-control" id="productDesc"
+                                    placeholder="Enter the product description" name="description" />
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="pPrice" class="form-label">Product Price</label>
+                                <input type="number" class="form-control" id="pPrice"
+                                    placeholder="Enter product price in rupees" name="price" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="pdiscount" class="form-label">Discount</label>
+                                <input type="number" class="form-control" id="pdiscount"
+                                    placeholder="Enter product discount in rupees" name="discount" />
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="pieces" class="form-label">Available Pieces</label>
+                                <input type="number" class="form-control" id="pieces"
+                                    placeholder="Enter product available pieces" name="quantity" />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="tags" class="form-label">Select Tags</label>
+                                <select class="form-select" id="tags">
+                                    <option value="BestSeller">Bestseller</option>
+                                    <option value="extra-discount">Extra Discount</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-select" id="category" name="meal_category_id">
+                                    <option value="" selected> ---Select---</option>
+                                    @foreach ($meal_categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="product-image" class="form-label">Product Image</label>
+                                <input type="file" class="form-control" id="productImage" name="photo" />
+
+                                <img src="" alt="" id="previewProductImage" height="70px"
+                                    width="70px" class="d-none" />
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <a href="{{ route('admins.dashboard') }}"
+                                class="text-primary-color btn bg-white shadow-lg mx-2">
+                                <i class="fa-solid fa-angles-left"></i>
+                            </a>
+                            <button class="bg-success text-white btn px-3 py-1" type="reset">
+                                <i class="fa-solid fa-arrow-rotate-left"></i>
+                            </button>
+                            <button class="btn btn-outline-danger px-3 py-1" type="submit">
+                                <i class="fa-solid fa-arrow-up-from-bracket mx-1"></i>upload
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal Start -->
+
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-white opacity-100 fw-bold p-2 rounded rounded-1 mb-3 bg-primary-color">
                 <i class="fa-solid fa-utensils bg-white text-primary-color rounded p-1"></i>
                 Uploaded Products
-                <button type="button" class="bg-white p-2 rounded mx-2 text-primary-color border-0" data-bs-toggle="modal"
-                    data-bs-target="#addProductModal">
+                <button type="button" class="bg-white p-2 rounded mx-2 text-primary-color border-0"
+                    data-bs-toggle="modal" data-bs-target="#addProductModal">
                     <i class="fa-solid fa-plus bg-level-2 text-white p-1 rounded"></i> Product
                 </button>
             </div>
@@ -103,6 +197,7 @@
                             <th scope="col">Availability</th>
                             <th scope="col">Image</th>
                             <th scope="col">Amount</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,41 +209,148 @@
 @endsection
 
 @section('admin-script-content')
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/datatable.js') }}"></script>
+    <script>
+        datatable('#productTable', "{{ route('meals.ajax') }}");
+    </script>
+    <script>
+        previewImage('previewProductImage', 'productImage');
+        previewImage('previewAddProductImage', 'addProductImage')
+    </script>
 
     <script>
-
-        $('#productTable').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "scrollX": true,
-            "autoWidth": false,
-            "lengthMenu": [10, 50, 100, 500, 1000],
-            "pageLength": 10,
-            "ajax": {
-                "url": '{{ route('meals.ajax') }}',
-                "type": "GET",
-                "data": function(d) {
-                    return $.extend({}, d);
-                },
-                "error": function(xhr, status, error) {
-                    console.log("AJAX Error:", error);
+        $('#productTable').on('click', '.delete-btn', function() {
+            const id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/meal/delete/' + id,
+                        type: 'GET',
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'success',
+                                text: response.message,
+                                icon: 'Success',
+                                confirmButtonText: 'OK',
+                            });
+                            $('#productTable').DataTable().ajax.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: xhr.responseJSON?.message ||
+                                    'Something went wrong while deleting the meal.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    })
                 }
-            },
-            "initComplete": function() {
-                $('#productTable').DataTable().columns.adjust().responsive.recalc();
-            },
-            "dom": '<"top"lBf>rt<"bottom"ip><"clear">',
-            "buttons": [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            });
+
+
+        });
+    </script>
+    <script>
+        $('#addProductForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent normal form submission
+
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: "{{ route('meals.store') }}", // Laravel route
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF protection
+                },
+                data: formData,
+                processData: false, // Required for FormData
+                contentType: false, // Required for FormData
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: response.message || 'Meal added successfully!',
+                        icon: 'success',
+                    });
+
+                    $('#addProductModal').modal('hide');
+                    $('#addProductModal')[0].reset(); // Optional: reset form
+                    $('#productTable').DataTable().ajax.reload(); // Reload table
+                },
+                error: function(xhr, status, error) {
+                    let message = "Something went wrong!";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Error',
+                        text: message,
+                        icon: 'error',
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $('#productTable').on('click', '.edit-btn', function() {
+            const id = $(this).data('id');
+
+            $('#productEditForm').data('id', id); //setting the id in the form
+
+            $('#editProductModal').modal('show');
+        });
+    </script>
+    <script>
+        $('#productEditForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent normal form submission
+            alert('consoleing');
+            const id = $(this).data('id') // Correct optional chaining
+            alert(id);
+            const formData = new FormData(this);
+            formData.append('id', id);
+            $.ajax({
+                url: "{{ route('meals.update') }}",
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Success',
+                        text: response.message || 'Meal Updated successfully!',
+                        icon: 'success',
+                    });
+                    if ($.fn.DataTable.isDataTable('#productTable')) {
+                        $('#productTable').DataTable().destroy();
+                    }
+
+                    datatable('#productTable', "{{ route('meals.ajax') }}");
+                    $('#editProductModal').modal('hide');
+                    $('#editProductModal')[0].reset(); // Optional: reset form
+                },
+                error: function(xhr, status, error) {
+                    let message = "Something went wrong!";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Error',
+                        text: message,
+                        icon: 'error',
+                    });
+                }
+            });
         });
     </script>
 @endsection
