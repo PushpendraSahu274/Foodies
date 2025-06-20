@@ -22,6 +22,7 @@ Route::get('/user/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('users.dashboard');
 
 //admin
+
 Route::middleware('auth')->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('admin.customers');
     Route::get('/customers/listing', [CustomerController::class, 'listing'])->name('customers.listing');
