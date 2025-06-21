@@ -15,9 +15,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
     <!-- our own css -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/fuild.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/user.css') }}" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fuild.css" />
+    <link rel="stylesheet" href="/css/user.css" />
 </head>
 
 <body>
@@ -232,7 +232,7 @@
 
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('js/previewImage.js')}}"> </script>
+    <script src="/js/previewImage.js"> </script>
     <script> previewImage('previewImage','dp')</script>
     @yield('admin-script-content')
 

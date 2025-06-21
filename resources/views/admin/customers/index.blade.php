@@ -60,7 +60,7 @@
 @endsection
 
 @section('admin-script-content')
-    <script src="{{ asset('js/datatable.js') }}"></script>
+    <script src="/js/datatable.js"></script>
     <script>
         datatable('#customerTable', "{{ route('customers.listing') }}");
     </script>
