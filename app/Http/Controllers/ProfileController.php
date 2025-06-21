@@ -38,6 +38,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
+    
         $user_id = Auth::user()->id;
         $profile = User::find($user_id);
         $profile->name = $request->name ?? $profile->name;
@@ -48,11 +49,12 @@ class ProfileController extends Controller
         $profile->description = $request->description ?? $profile->description;
         $image_url = '';
         if ($request->hasFile('photo')) {
-            if ($profile->profile_path && Storage::disk('public')->exists($profile->profile_path)) {
-                Storage::disk('public')->delete($profile->profile_path);
+            
+            if ($profile->profile_path && $this->isCloudinaryResourceExists($profile->profile_path)) {
+                $this->deleteResourceFromCloudinary($profile->profile_path);
             }
             $file = $request->file('photo');
-            $image_url = $this->UploadImage($file, 'avatar');
+            $image_url = $this->uploadToCloudinary($file, 'avatar');
             $profile->profile_path = $image_url;
         }
         if ($request->has('password')) {
@@ -62,7 +64,7 @@ class ProfileController extends Controller
         // 19-06-2025_6854280c2740f.jpg
         $profile = [
             'id' => $profile->id,
-            'profile' => $image_url ? env('APP_URL').'storage/' . $image_url : $profile->profile_path,
+            'profile' => $this->isCloudinaryResourceExists($profile->profile_path) ? $this->getCloudinaryResourceUrl($profile->profile_path) : null,
             'name' => $profile->name,
             'phone' => $profile->phone,
             'description' => $profile->about,
@@ -76,7 +78,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],

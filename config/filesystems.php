@@ -59,6 +59,16 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        
+        'cloudinary' => [
+        'driver' => 'cloudinary',
+        'cloud' => env('CLOUDINARY_CLOUD_NAME', 'dllyp99br'),
+        'key' => env('CLOUDINARY_API_KEY', '554974152564916'),
+        'secret' => env('CLOUDINARY_API_SECRET', '5m28nSY8VyoIpdLdANZ0rT_FOzM'),
+        'secure' => true,
+        'url' => env('CLOUDINARY_URL', 'cloudinary://554974152564916:5m28nSY8VyoIpdLdANZ0rT_FOzM@dllyp99br'),
+],
+
 
     ],
 

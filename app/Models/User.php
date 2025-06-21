@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\UploadImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +14,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use UploadImageTrait;
     protected $appends = ['profile'];
 
     /**
@@ -50,13 +53,10 @@ class User extends Authenticatable
     }
 
     public function getProfileAttribute(){
-        if($this->profile_path){
-            $profile_path = env('APP_URL').'storage/'.$this->profile_path;
+        if ($this->profile_path && $this->isCloudinaryResourceExists($this->profile_path)) {
+            return $this->getCloudinaryResourceUrl($this->profile_path);
         }
-        else{
-            $profile_path = null;
-        }
-        return $profile_path;
+        return null; 
     }
     
 }

@@ -1,5 +1,4 @@
 function datatable(tableId, url){
-    console.log('pasting the url'.url);
     $(tableId).DataTable({
             "processing": true,
             "serverSide": true,

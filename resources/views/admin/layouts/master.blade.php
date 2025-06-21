@@ -17,8 +17,6 @@
     <!-- our own css -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/fuild.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin.css') }}" />
-    <link rel="stylesheet" href="{{ asset('adminFluid.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/user.css') }}" />
 </head>
 
@@ -79,7 +77,7 @@
                                             name="photo" />
 
                                         {{-- Preview Image -- --}}
-                                        <img src="{{ asset('storage/'.$profile->profile_path) }}" alt="User image" height="70px"
+                                        <img src="{{ $profile->profile ?? null }}" alt="User image" height="70px"
                                             width="70px" id='previewImage'>
                                     </div>
                                 </div>
@@ -119,7 +117,7 @@
                             <div class="col-sm-12 my-2">
                                 <div class="userProfile bg-level-2 p-1 rounded shadow-lg">
                                     <div class="card p-3 bg-level-2" style="width: 100%">
-                                        <img src="{{ asset('storage/'.$profile->profile_path) }}"
+                                        <img src="{{ $profile->profile }}"
                                             class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"
                                             alt="..." 
                                             id="profileImage"/>
@@ -175,8 +173,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <!-- my oun javaScript file -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/admin.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -214,7 +214,7 @@
                 aria-label="Close"
               ></button> -->
                     </div>
-                    <form action="{{ route('login') }}" id="modal-user-login-form">
+                    <form action="{{ route('login') }}" id="modal-user-login-form" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
