@@ -68,7 +68,6 @@
                                 <label for="product-image" class="form-label">Product Image</label>
                                 <input type="file" class="form-control" id="addProductImage" name="photo"
                                     accept="image/*" />
-                                >
 
                                 {{-- Preview Add Product Image --}}
                                 <img src="" alt="none" class="d-none" id="previewAddProductImage" height="70px"
@@ -219,7 +218,8 @@
     </script>
 
     <script>
-        $('#productTable').on('click', '.delete-btn', function() {
+        $('#productTable').on('click', '.delete-btn', function(e) {
+            e.preventDefault();
             const id = $(this).data('id');
             Swal.fire({
                 title: 'Are you sure?',
@@ -234,13 +234,13 @@
                         url: '/meal/delete/' + id,
                         type: 'GET',
                         success: function(response) {
+                            datatable('#productTable',"{{ route('meals.ajax') }}");
                             Swal.fire({
                                 title: 'success',
                                 text: response.message,
                                 icon: 'Success',
                                 confirmButtonText: 'OK',
                             });
-                            $('#productTable').DataTable().ajax.reload();
                         },
                         error: function(xhr, status, error) {
                             Swal.fire({
@@ -279,10 +279,10 @@
                         text: response.message || 'Meal added successfully!',
                         icon: 'success',
                     });
-
+                    datatable('#productTable',"{{ route('meals.ajax') }}");
                     $('#addProductModal').modal('hide');
                     $('#addProductModal')[0].reset(); // Optional: reset form
-                    $('#productTable').DataTable().ajax.reload(); // Reload table
+                     //reload the datatable
                 },
                 error: function(xhr, status, error) {
                     let message = "Something went wrong!";
@@ -311,9 +311,9 @@
     <script>
         $('#productEditForm').on('submit', function(e) {
             e.preventDefault(); // Prevent normal form submission
-            alert('consoleing');
+            
             const id = $(this).data('id') // Correct optional chaining
-            alert(id);
+            
             const formData = new FormData(this);
             formData.append('id', id);
             $.ajax({

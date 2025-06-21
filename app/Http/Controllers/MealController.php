@@ -31,6 +31,7 @@ class MealController extends Controller
         if ($searchValue = $request->input('search.value')) {
             $query->where(function ($q) use ($searchValue) {
                 $q->where('meals.title', 'LIKE', "%$searchValue%")
+                    ->orWhere('meals.id','LIKE',"%$searchValue%")
                     ->orWhere('meals.description', 'LIKE', "%$searchValue%");
             });
         }
@@ -47,7 +48,9 @@ class MealController extends Controller
 
         foreach ($meals as $meal) {
 
-            $picture_path = $meal->picture_path == null ? 'No Image' : '<img width="50" height="50" src="' . asset('storage/' . $meal->picture_path) . '"></img>';
+            $picture_path = $meal->picture_path && $this->isCloudinaryResourceExists($meal->picture_path) 
+                            ? '<img src="'.$this->getCloudinaryResourceUrl($meal->picture_path).'" class="img-thumbnail" style="width: 70px; height: 70px;" alt="No Image">'
+                            : '<img src="https://via.placeholder.com/150x150?text=No+Image" class="img-thumbnail" alt="No Image">';
             $editIcon = '<button type="button" 
                 class="btn btn-link text-success p-0 me-2 edit-btn" 
                 data-id="' . $meal->id . '">
@@ -97,8 +100,9 @@ class MealController extends Controller
         $meal->quantity = $request->quantity;
 
         if ($request->hasFile('photo')) {
+            //upload cloudinary
             $file = $request->file('photo');
-            $picture_path = $this->UploadImage($file, 'meal');
+            $picture_path = $this->uploadToCloudinary($file, 'meal');
             $meal->picture_path = $picture_path;
         }
 

@@ -1,4 +1,9 @@
 function datatable(tableId, url){
+
+    // Check if already initialized and destroy it
+    if ($.fn.DataTable.isDataTable(tableId)) {
+        $(tableId).DataTable().clear().destroy();
+    }
     $(tableId).DataTable({
             "processing": true,
             "serverSide": true,

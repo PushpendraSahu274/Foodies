@@ -21,10 +21,12 @@ class MealUpdateRequest extends FormRequest
         return [
             'id' => ['required'],
             'title' => [
+                'nullable',
                 'sometimes',
                 Rule::unique('meals', 'title')->ignore($this->id), //    
             ],
             'description' => [
+                'nullable',
                 'sometimes',
                 function ($attribute, $value, $fail) {
                     if (trim($value) === '') {
