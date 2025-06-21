@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
@@ -21,15 +22,21 @@ Route::get('/user/dashboard', function () {
     return view('user.dashboard');
 })->middleware(['auth', 'verified'])->name('users.dashboard');
 
-//admin
+// --------------------------------------------------------------------------------------------------------------------
+// ************************************************** ADMIN ROUTES ****************************************************
+// --------------------------------------------------------------------------------------------------------------------
 
 Route::middleware('auth')->group(function () {
+
+    // **************************************** CUSTOMER ****************************************
+
     Route::get('/customers', [CustomerController::class, 'index'])->name('admin.customers');
     Route::get('/customers/listing', [CustomerController::class, 'listing'])->name('customers.listing');
     Route::get('/customers/{id}/profile', [CustomerController::class, 'showProfile']);
 
 
-    //product routes
+    // **************************************** MEAL *******************************************
+    
     Route::get('/products', [MealController::class, 'index'])->name('meals');
     Route::post('/products/store', [MealController::class, 'store'])->name('meals.store');
     Route::post('/products/update', [MealController::class, 'update'])->name('meals.update');
@@ -37,15 +44,30 @@ Route::middleware('auth')->group(function () {
     Route::get('/meal/delete/{id}', [MealController::class, 'destroy']);
 
 
-    //orders
+    // *************************************** ORDER ******************************************
+
     Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders');
     Route::get('/orders/listing', [OrderController::class, 'listing'])->name('orders.listing');
     Route::get('/orders/{id}', [OrderController::class, 'show']);
     Route::post('order/update/status', [OrderController::class, 'update_status']);
 
-    //profile
+    // ******************************************PROFILE******************************************
+
     Route::POST('/admin/profile/update', [ProfileController::class, 'update'])->name('admin.profile.update');
 });
+
+// --------------------------------------------------------------------------------------------------------------------
+// ************************************************** CUSTOMER ROUTES ****************************************************
+// --------------------------------------------------------------------------------------------------------------------
+
+Route::middleware('auth')->prefix('customer')->name('customer.')->group(function(){
+    Route::post('/meals/ajax',[MealController::class, 'customer_meal_ajax'])->name('meal.ajax');
+
+
+    //************************************************* CART *************************************************************
+    Route::get('/cart/add/{id}',[CartController::class, 'addToCart'])->name('cart.add');
+});
+
 
 
 require __DIR__ . '/auth.php';

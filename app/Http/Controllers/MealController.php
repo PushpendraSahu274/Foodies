@@ -9,6 +9,7 @@ use App\Models\MealCategory;
 use App\Models\User;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
 
@@ -18,10 +19,19 @@ class MealController extends Controller
     //
     public function index(Request $request)
     {
-        $meals = Meal::get();
-        $profile = User::where('role', 'admin')->first();
+        $query = Meal::query();
         $meal_categories = MealCategory::where('status', 1)->get();
-        return view('admin.meals.index', compact('meals', 'profile', 'meal_categories'));
+        
+        if(Auth::user()->role == 'admin'){
+            $meals = $query->get();
+            $profile = User::where('role', 'admin')->first();
+            return view('admin.meals.index', compact('meals', 'profile', 'meal_categories'));
+        }
+        else{ 
+            $query = $query->where('is_available','=',1)->where('quantity','>',0); 
+            $meals = $query->get();
+                return view('user.meals.index',compact('meals','meal_categories'));
+        }
     }
 
     public function listing(Request $request)
@@ -150,5 +160,42 @@ class MealController extends Controller
             'success' => true,
             'message' => 'Meal delete successfully',
         ], 200);
+    }
+
+    public function customer_meal_ajax(Request $request){   
+        // dd($request->all());
+        $price = $request->price_filter;
+        $meal_category_id = $request->category_filter;
+        $stock_filter = $request->stock_filter;
+
+        $query = Meal::query();
+
+        // price filter
+        if($price && $price != ''){
+            $query = $query->where('mrp','<=',$price);
+        }
+
+        //category filter
+        if($meal_category_id && $meal_category_id != ''){
+            $query = $query->where('meal_category_id','=',$meal_category_id);
+        }
+        
+        if($stock_filter !== null && $stock_filter != ''){ //0 -> upcoming | 1 -> available
+            $query = $query->where('is_available','=',(int)$stock_filter);
+        }
+        $meals = $query->get(); //filter meals.
+        $html = '';
+
+        foreach($meals as $meal){
+        $html .= view('user.meals.partials.meal-card',compact('meal'))->render();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product filtered successfully',
+            'data' => [
+                'html'=> $html,
+            ],
+        ]);
     }
 }

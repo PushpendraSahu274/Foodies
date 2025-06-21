@@ -23,7 +23,7 @@
               <a
                 class="nav-link fw-bold active"
                 aria-current="page"
-                href="#"
+                href="{{route('meals')}}"
                 >All Products</a
               >
             </li>
