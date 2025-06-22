@@ -34,7 +34,7 @@
         <p class="text-white fw-bold opacity-75">
           2025. Foodies.All rights reserved
         </p>
-        <p class="text-white fw-bold opacity-50">developed by Raj Mishra</p>
+        <p class="text-white fw-bold opacity-50">Frontend developed by Raj Mishra & Backend developed by Pushpendra Sahu</p>
       </div>
     </div>
   </footer>

@@ -21,7 +21,7 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a
-                class="nav-link fw-bold active"
+                class="nav-link fw-bold {{ request()->routeIs('meals') ? 'active text-primary' : '' }}"
                 aria-current="page"
                 href="{{route('meals')}}"
                 >All Products</a
@@ -29,13 +29,13 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link fw-bold" href="MyCart.html">My Cart</a>
+              <a class="nav-link fw-bold {{ request()->routeIs('customer.cart.index') ? 'active text-primary' : '' }}" href="{{route('customer.cart.index')}}">My Cart</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fw-bold" href="MyOrders.html">My Orders</a>
+              <a class="nav-link fw-bold {{ request()->routeIs('customer.order.index') ? 'active text-primary' : '' }}" href="{{route('customer.order.index')}}">My Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fw-bold" href="userProfile.html"
+              <a class="nav-link fw-bold" href="{{ route('customer.profile.show')}}"
                 >Profile</a
               >
             </li>

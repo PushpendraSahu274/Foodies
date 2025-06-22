@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Profile\ProfileUpdateRequest;
+use App\Models\Address;
 use App\Models\User;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\RedirectResponse;
@@ -21,9 +22,16 @@ class ProfileController extends Controller
      */
     public function show(Request $request)
     {
-        $user_id = Auth::user()->id;
-        $profile = User::find($user_id);
+        $user = Auth::user();
+        $profile = User::find($user->id);
+        if($user->role =='admin')
         return redirect()->back()->with(['profile' => $profile]);
+
+        else{
+            $addresses = Address::where('user_id',$user->id)->get();
+            return view('user.profile.index',compact('profile','addresses'));
+        }
+        
     }
 
     public function edit(Request $request): View

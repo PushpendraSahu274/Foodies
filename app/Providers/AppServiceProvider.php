@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\RoleMiddleware;
+use App\Models\Cart;
+use App\Observers\Cart\CartObserver;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,13 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-        // if (
-        //     $this->app->environment('production') &&
-        //     (!app()->runningInConsole()) &&
-        //     request()->header('X-Forwarded-Proto') === 'https'
-        // ) {
-        //     URL::forceScheme('https');
-        // }
+        Cart::observe(CartObserver::class);
+        Route::aliasMiddleware('role', RoleMiddleware::class);
     }
 }
