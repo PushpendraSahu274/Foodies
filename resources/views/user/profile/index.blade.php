@@ -11,8 +11,10 @@
             <div class="col-sm-11 col-md-5 my-5">
                 <div class="userProfile bg-level-2 p-2 rounded shadow-lg">
                     <div class="card p-3 bg-level-2" style="width: 100%">
-                        <img src="{{ $profile->profile ? asset($profile->profile) : asset('images/review/review-1.jpg') }}"
-                            class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto" alt="Profile Picture" id="profileImage"/>
+
+                        <img src="@if ($profile->avatar) {{ $profile->avatar }} @elseif($profile->profile) {{ $profile->profile }} @else {{ asset('images/review/review-1.jpg') }} @endif"
+                            class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto" alt="Profile Picture"
+                            id="profileImage" />
                         <div class="card-body">
                             <h5 class="card-title text-center text-white">{{ $profile->name }}</h5>
                             <h5 class="card-title text-center fs-5 fw-normal opacity-75 text-white">
@@ -63,7 +65,7 @@
                 <div class="updateProfile shadow-lg mx-md-1 p-3 rounded">
                     <div class="content">
                         <h5 class="text-center w-full mt-4">Update <span class="text-danger">Profile</span></h5>
-                        <form id="customer-profile-update-form"  enctype="multipart/form-data">
+                        <form id="customer-profile-update-form" enctype="multipart/form-data">
                             @csrf
                             <div class="body mt-4">
                                 <div class="mb-3">
@@ -96,8 +98,8 @@
                                     <input type="file" id="dp" name="photo" class="form-control smallplace">
 
                                     {{-- Preview Image -- --}}
-                                    <img src="{{ $profile->profile ?? null }}" alt="User image" height="70px" class="d-none"
-                                        width="70px" id='previewImage'>
+                                    <img src="{{ $profile->profile ?? null }}" alt="User image" height="70px"
+                                        class="d-none" width="70px" id='previewImage'>
                                 </div>
                             </div>
                             <div class="m-footer">

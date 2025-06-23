@@ -68,14 +68,28 @@
                         </div>
                     </form>
                     <!-- Filter Form End -->
+                    @if ($meals->isEmpty())
+                        <div class="text-center py-5">
+                            <img src="{{ asset('images/meal/empty-meal.svg') }}" alt="Empty menu" width="160" class="mb-4">
 
-                    <!-- Product Cards Start -->
-                    <div class="p-0 row product-card-container d-flex justify-content-around gap-1 py-2" id="meal-listing">
-                        @foreach ($meals as $meal)
-                            @include('user.meals.partials.meal-card', ['meal' => $meal])
-                        @endforeach
-                    </div>
-                    <!-- Product Cards End -->
+                            <h4 class="text-danger fw-bold">Oops! Our kitchen’s still cooking.</h4>
+                            <p class="text-muted">We haven’t added meals here yet — but we’re working on it. Please check
+                                back soon!</p>
+
+                            {{-- <a href="{{ route('home') }}" class="btn fw-bold mt-3"
+                                style="background-color: #a9283b; color: white;">
+                                Return to Home
+                            </a> --}}
+                        </div>
+                    @else
+                        <div class="p-0 row product-card-container d-flex justify-content-around gap-1 py-2"
+                            id="meal-listing">
+                            @foreach ($meals as $meal)
+                                @include('user.meals.partials.meal-card', ['meal' => $meal])
+                            @endforeach
+                        </div>
+                    @endif
+
 
                 </div>
             </div>
@@ -111,29 +125,29 @@
             })
         });
     </script>
-    
-    <script>
-    // add to cart button
-    $('#meal-listing').on('click','.product-card', function(){
-        const productId = $(this).data('id');
-        let baseUrl = "{{route('customer.cart.add',['id' => ':id'])}}";
-        
-        baseUrl = baseUrl.replace(':id',productId);
 
-        $.ajax({
-            url:baseUrl,
-            type:'GET',
-            success:function(response){
-                Swal.fire(response.message);
-            },
-            error:function(xhr, status, error){
-                Swal.fire({
-                    title:'error',
-                    text:status,
-                    icon:'error',
-                })
-            }
-        })
-    });
+    <script>
+        // add to cart button
+        $('#meal-listing').on('click', '.product-card', function() {
+            const productId = $(this).data('id');
+            let baseUrl = "{{ route('customer.cart.add', ['id' => ':id']) }}";
+
+            baseUrl = baseUrl.replace(':id', productId);
+
+            $.ajax({
+                url: baseUrl,
+                type: 'GET',
+                success: function(response) {
+                    Swal.fire(response.message);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'error',
+                        text: status,
+                        icon: 'error',
+                    })
+                }
+            })
+        });
     </script>
 @endsection

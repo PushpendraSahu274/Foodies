@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Meal\MealStoreRequest;
 use App\Http\Requests\Meal\MealUpdateRequest;
+use App\Jobs\ProcessMealCsv;
 use App\Models\Meal;
 use App\Models\MealCategory;
 use App\Models\User;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
 
 class MealController extends Controller
@@ -21,16 +25,15 @@ class MealController extends Controller
     {
         $query = Meal::query();
         $meal_categories = MealCategory::where('status', 1)->get();
-        
-        if(Auth::user()->role == 'admin'){
+
+        if (Auth::user()->role == 'admin') {
             $meals = $query->get();
             $profile = User::where('role', 'admin')->first();
             return view('admin.meals.index', compact('meals', 'profile', 'meal_categories'));
-        }
-        else{ 
-            $query = $query->where('is_available','=',1)->where('quantity','>',0); 
+        } else {
+            $query = $query->where('is_available', '=', 1)->where('quantity', '>', 0);
             $meals = $query->get();
-                return view('user.meals.index',compact('meals','meal_categories'));
+            return view('user.meals.index', compact('meals', 'meal_categories'));
         }
     }
 
@@ -41,7 +44,7 @@ class MealController extends Controller
         if ($searchValue = $request->input('search.value')) {
             $query->where(function ($q) use ($searchValue) {
                 $q->where('meals.title', 'LIKE', "%$searchValue%")
-                    ->orWhere('meals.id','LIKE',"%$searchValue%")
+                    ->orWhere('meals.id', 'LIKE', "%$searchValue%")
                     ->orWhere('meals.description', 'LIKE', "%$searchValue%");
             });
         }
@@ -58,9 +61,9 @@ class MealController extends Controller
 
         foreach ($meals as $meal) {
 
-            $picture_path = $meal->picture_path && $this->isCloudinaryResourceExists($meal->picture_path) 
-                            ? '<img src="'.$this->getCloudinaryResourceUrl($meal->picture_path).'" class="img-thumbnail" style="width: 70px; height: 70px;" alt="No Image">'
-                            : '<img src="https://via.placeholder.com/150x150?text=No+Image" class="img-thumbnail" alt="No Image">';
+            $picture_path = $meal->picture_path && $this->isCloudinaryResourceExists($meal->picture_path)
+                ? '<img src="' . $this->getCloudinaryResourceUrl($meal->picture_path) . '" class="img-thumbnail" style="width: 70px; height: 70px;" alt="No Image">'
+                : '<img src="https://via.placeholder.com/150x150?text=No+Image" class="img-thumbnail" alt="No Image">';
             $editIcon = '<button type="button" 
                 class="btn btn-link text-success p-0 me-2 edit-btn" 
                 data-id="' . $meal->id . '">
@@ -123,7 +126,8 @@ class MealController extends Controller
         ], 200);
     }
 
-    public function update(MealUpdateRequest $request){
+    public function update(MealUpdateRequest $request)
+    {
         $meal = Meal::findOrFail($request->id);
         $meal->title = $request->title ?? $meal->title;
         $meal->description = $request->description ?? $meal->description;
@@ -162,7 +166,8 @@ class MealController extends Controller
         ], 200);
     }
 
-    public function customer_meal_ajax(Request $request){   
+    public function customer_meal_ajax(Request $request)
+    {
         // dd($request->all());
         $price = $request->price_filter;
         $meal_category_id = $request->category_filter;
@@ -171,31 +176,58 @@ class MealController extends Controller
         $query = Meal::query();
 
         // price filter
-        if($price && $price != ''){
-            $query = $query->where('mrp','<=',$price);
+        if ($price && $price != '') {
+            $query = $query->where('mrp', '<=', $price);
         }
 
         //category filter
-        if($meal_category_id && $meal_category_id != ''){
-            $query = $query->where('meal_category_id','=',$meal_category_id);
+        if ($meal_category_id && $meal_category_id != '') {
+            $query = $query->where('meal_category_id', '=', $meal_category_id);
         }
-        
-        if($stock_filter !== null && $stock_filter != ''){ //0 -> upcoming | 1 -> available
-            $query = $query->where('is_available','=',(int)$stock_filter);
+
+        if ($stock_filter !== null && $stock_filter != '') { //0 -> upcoming | 1 -> available
+            $query = $query->where('is_available', '=', (int)$stock_filter);
         }
         $meals = $query->get(); //filter meals.
         $html = '';
 
-        foreach($meals as $meal){
-        $html .= view('user.meals.partials.meal-card',compact('meal'))->render();
+        foreach ($meals as $meal) {
+            $html .= view('user.meals.partials.meal-card', compact('meal'))->render();
         }
 
         return response()->json([
             'success' => true,
             'message' => 'Product filtered successfully',
             'data' => [
-                'html'=> $html,
+                'html' => $html,
             ],
         ]);
+    }
+
+    public function import(Request $request)
+    {
+
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt',
+        ]);
+
+        try {
+
+            $filename = uniqid() . '.' . $request->file('csv_file')->getClientOriginalExtension();
+
+            // Store it manually in a permanent path
+            $request->file('csv_file')->move(storage_path('app/uploads'), $filename);
+
+            $fullPath = storage_path('app/uploads/' . $filename);
+
+            // Dispatch job to process CSV
+            ProcessMealCsv::dispatch($fullPath);
+
+            return back()->with('message', 'Upload started. Meals will be processed in the background.');
+        } catch (\Exception $e) {
+            // DB::rollback();
+            Log::error('Error occured while meal_csv uploading. ' . $e->getMessage());
+            abort(500,'Error while uploading the csv ' . $e->getMessage());
+        }
     }
 }

@@ -76,6 +76,7 @@ class ProfileController extends Controller
             'name' => $profile->name,
             'phone' => $profile->phone,
             'description' => $profile->about,
+            'avatar' => $profile->avatar ? $profile->avatar : null,
         ];
         return response()->json([
             'success' => true,

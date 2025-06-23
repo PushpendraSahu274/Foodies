@@ -176,14 +176,53 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 text-white opacity-100 fw-bold p-2 rounded rounded-1 mb-3 bg-primary-color">
-                <i class="fa-solid fa-utensils bg-white text-primary-color rounded p-1"></i>
-                Uploaded Products
-                <button type="button" class="bg-white p-2 rounded mx-2 text-primary-color border-0"
-                    data-bs-toggle="modal" data-bs-target="#addProductModal">
-                    <i class="fa-solid fa-plus bg-level-2 text-white p-1 rounded"></i> Product
-                </button>
+            <div
+                class="col-sm-12 text-white opacity-100 fw-bold p-2 rounded rounded-1 mb-3 bg-primary-color d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fa-solid fa-utensils bg-white text-primary-color rounded p-1"></i>
+                    Uploaded Products
+                </div>
+
+                <div class="d-flex gap-2">
+                    <form action="{{ route('meals.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <label class="btn bg-white text-primary-color p-2 rounded m-0" style="cursor: pointer;">
+                            <i class="fa-solid fa-file-csv bg-level-2 text-white p-1 rounded"></i> Upload CSV
+                            <input type="file" name="csv_file" accept=".csv" onchange="this.form.submit()" hidden>
+                        </label>
+                    </form>
+
+                    <button type="button" class="bg-white p-2 rounded text-primary-color border-0"
+                        data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        <i class="fa-solid fa-plus bg-level-2 text-white p-1 rounded"></i> Product
+                    </button>
+                </div>
             </div>
+
+            {{-- Toaster to show the message --}}
+            @if (session('message'))
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+                    <div id="liveToast" class="toast align-items-center text-white bg-success border-0 show"
+                        role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ session('message') }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const toastElement = document.getElementById('liveToast');
+                        const toast = new bootstrap.Toast(toastElement);
+                        toast.show();
+                    });
+                </script>
+            @endif
+
             <div class="col-sm-12 table-responsive">
                 <table id="productTable" class="table table-striped table-bordered">
                     <thead>
@@ -234,7 +273,7 @@
                         url: '/meal/delete/' + id,
                         type: 'GET',
                         success: function(response) {
-                            datatable('#productTable',"{{ route('meals.ajax') }}");
+                            datatable('#productTable', "{{ route('meals.ajax') }}");
                             Swal.fire({
                                 title: 'success',
                                 text: response.message,
@@ -279,10 +318,10 @@
                         text: response.message || 'Meal added successfully!',
                         icon: 'success',
                     });
-                    datatable('#productTable',"{{ route('meals.ajax') }}");
+                    datatable('#productTable', "{{ route('meals.ajax') }}");
                     $('#addProductModal').modal('hide');
                     $('#addProductModal')[0].reset(); // Optional: reset form
-                     //reload the datatable
+                    //reload the datatable
                 },
                 error: function(xhr, status, error) {
                     let message = "Something went wrong!";
@@ -311,9 +350,9 @@
     <script>
         $('#productEditForm').on('submit', function(e) {
             e.preventDefault(); // Prevent normal form submission
-            
+
             const id = $(this).data('id') // Correct optional chaining
-            
+
             const formData = new FormData(this);
             formData.append('id', id);
             $.ajax({

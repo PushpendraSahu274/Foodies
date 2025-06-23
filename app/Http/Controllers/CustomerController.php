@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    use UploadImageTrait;
     public function index(Request $request)
     {
         $customers = User::where("role", 'user')->get();
@@ -37,9 +39,20 @@ class CustomerController extends Controller
         $sno = $request->input('start', 0) + 1;
 
         foreach ($customers as $customer) {
-            $profile_path = $customer->profile_path == null ? 'No Image' : '<img width="50" height="50" src="' . asset('storage/' . $customer->profile_path)  . '" class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"></img>';
+
+            if ($customer->avatar) {
+                $profile_path = $customer->avatar; //signup with google
+            } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
+                $profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+            } else {
+                // return the url for default image
+                $profile_path = asset('images\costomers\default_avatar.png');
+            }
+
+            $profile = '<img src="'.$profile_path.'" alt="customer image" height="50px" width="50px" style="border-radius: 50%; object-fit: cover;">';
+
             $action = '<button class="btn btn-sm btn-primary view-profile-btn"
-                            data-id="'.$customer->id.'"
+                            data-id="' . $customer->id . '"
                             data-bs-toggle="offcanvas"
                             data-bs-target="#customerProfileOffcanvas">
                         View
@@ -52,7 +65,7 @@ class CustomerController extends Controller
                 $customer->email,
                 $customer->phone,
                 $customer->created_at->format('d M Y'),
-                $profile_path,
+                $profile,
                 $action
             ];
         }
@@ -68,6 +81,16 @@ class CustomerController extends Controller
     public function showProfile($id)
     {
         $customer = User::findOrFail($id); // or Customer model
+
+        if ($customer->avatar) {
+            $customer->profile_path = $customer->avatar; //signup with google
+        } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
+            $customer->profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+        } else {
+            // return the url for default image
+            $customer->profile_path = asset('images\costomers\default_avatar.png');
+        }
         return view('admin.customers.partials.details', compact('customer'));
     }
+
 }

@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/products/update', [MealController::class, 'update'])->name('meals.update');
         Route::get('/products/listing', [MealController::class, 'listing'])->name('meals.ajax');
         Route::get('/meal/delete/{id}', [MealController::class, 'destroy']);
+        Route::post('/meal/import',[MealController::class, 'import'])->name('meals.import');
     });
     
 

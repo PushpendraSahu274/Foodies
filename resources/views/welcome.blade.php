@@ -130,7 +130,7 @@
                                     flavor to your doorstep.
                                 </div>
                             </div>
-                            @guest
+                            @if (!Auth::check())
                                 <div class="row">
                                     <div class="col-sm-6 d-flex gap-3 mt-2">
                                         <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-2"
@@ -149,19 +149,18 @@
                                         </a>
                                     </div>
                                 </div>
-                            @endguest
-
-                            @auth
+                            @else
                                 <div class="row">
                                     <div class="col-sm-6 d-flex gap-3 mt-2">
                                         <a class="btn phoneBtn heroBtn fw-bold px-5 d-flex align-items-center gap-2"
-                                            href="{{ Auth::user()->role === 'admin' ? route('admins.dashboard') : route('users.dashboard') }}">
+                                            href="{{ auth()->user()->isAdmin() ? route('admins.dashboard') : route('users.dashboard') }}">
                                             My Account
                                             <i class="fa-solid fa-right-to-bracket fs-4"></i>
                                         </a>
                                     </div>
                                 </div>
-                            @endauth
+                            @endif
+
                         </div>
                         <div class="col-12 display-none display-md-block display-lg-block col-md-6 col-lg-6"></div>
                     </div>
@@ -205,7 +204,7 @@
                 <div class="modal-content">
                     <div class="modal-header justify-content-center">
                         <h5 class="modal-title login-heading-modal text-center w-full" id="staticBackdropLabel">
-                            User Login
+                            Log In
                         </h5>
                         <!-- <button
                 type="button"
@@ -217,31 +216,42 @@
                     <form action="{{ route('login') }}" id="modal-user-login-form" method="POST">
                         @csrf
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="LoginEmail" class="form-label text-primary-color">Email</label>
-                                <input type="email" class="form-control" id="LoginEmail"
-                                    placeholder="Enter your email" name="email" required />
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-6">
+                                    <label for="LoginEmail" class="form-label text-primary-color">Email</label>
+                                    <input type="email" class="form-control" id="LoginEmail"
+                                        placeholder="Enter your email" name="email" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="LoginPwd" class="form-label text-primary-color">Password</label>
+                                    <input type="password" class="form-control" id="LoginPwd"
+                                        placeholder="Enter your password" name="password" required />
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="LoginPwd" class="form-label text-primary-color">Password</label>
-                                <input type="password" class="form-control" id="LoginPwd"
-                                    placeholder="Enter your Password" name="password" required />
-                            </div>
-                            <div class="mb-3 me-auto text-end">
-                                <span>forget password?
+
+                            <div class="mt-2 text-end">
+                                <span class="text-muted small">Forgot password?
                                     <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#ForgetPwdUser">reset</a></span>
+                                        data-bs-target="#ForgetPwdUser">Reset</a>
+                                </span>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="submit" class="btn btn-danger" id="modal-login-button">
+
+                        <div class="modal-footer d-flex flex-column gap-2">
+                            <button type="submit" class="btn btn-danger w-100" id="modal-login-button">
                                 Login
+                            </button>
+
+                            <a href="{{ route('auth.google') }}" class="btn btn-outline-danger w-100">
+                                <i class="fab fa-google me-2"></i> Sign in with Google
+                            </a>
+
+                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                                Close
                             </button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -333,7 +343,7 @@
                 <div class="modal-content">
                     <div class="modal-header justify-content-center">
                         <h5 class="modal-title login-heading-modal text-center w-full" id="staticBackdropLabel">
-                            User Registration
+                            Register 
                         </h5>
                         <!-- <button
                 type="button"
@@ -342,58 +352,61 @@
                 aria-label="Close"
               ></button> -->
                     </div>
-                    <form action="{{ route('register') }}" method="post">
+                    <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput0" class="form-label text-primary-color">Full
-                                    Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput0"
-                                    placeholder="Enter your full name" name="name" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput5"
-                                    class="form-label text-primary-color">Email</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput5"
-                                    placeholder="Enter your email" name="email" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput6" class="form-label text-primary-color">Mobile
-                                    number</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput6"
-                                    placeholder="Enter your email" name="phone" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput3"
-                                    class="form-label text-primary-color">Password</label>
-                                <input type="password" class="form-control" id="exampleFormControlInput3"
-                                    placeholder="Enter your Password" name="password" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput4" class="form-label text-primary-color">Confirm
-                                    Password</label>
-                                <input type="password" class="form-control" id="exampleFormControlInput4"
-                                    placeholder="Re-enter your Password" name="confirmation_password" required />
-                            </div>
-                            <div class="mb-3">
-                                <label for="profile-picture" class="form-label text-primary-color">Profile
-                                    Picture</label>
-                                <input type="file" class="form-control" id="profile-picture"
-                                    name="profile_path" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label text-primary-color">Address</label>
-                                <input type="text" class="form-control" id="address"
-                                    placeholder="Enter address" name="address" />
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Full Name</label>
+                                    <input type="text" class="form-control" name="name"
+                                        placeholder="eg. John doe" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Email</label>
+                                    <input type="email" class="form-control" name="email"
+                                        placeholder="eg. john.doe@gmail.com" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Mobile Number</label>
+                                    <input type="number" class="form-control" name="phone"
+                                        placeholder="eg. 1234567890" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Profile Picture</label>
+                                    <input type="file" class="form-control" name="profile_path" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Password</label>
+                                    <input type="password" class="form-control" name="password"
+                                        placeholder="eg. abcd@123" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-primary-color">Confirm Password</label>
+                                    <input type="password" class="form-control" name="confirmation_password"
+                                        placeholder="eg. abcd@123" required />
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-primary-color">Address</label>
+                                    <input type="text" class="form-control" name="address"
+                                        placeholder="eg. Indira Nagar Luknow -226016" />
+                                </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        <div class="modal-footer d-flex flex-column gap-3">
+                            <button type="submit" class="btn btn-danger w-100">Register</button>
+
+                            <a href="{{ route('auth.google') }}" class="btn btn-outline-danger w-100">
+                                <i class="fab fa-google me-2"></i> Sign Up with Google
+                            </a>
+
+                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
                                 Close
                             </button>
-                            <button type="submit" class="btn btn-danger">Register</button>
                         </div>
                     </form>
+
+
                 </div>
             </div>
         </div>

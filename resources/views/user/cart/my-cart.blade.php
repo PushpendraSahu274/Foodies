@@ -6,64 +6,78 @@
 
 @section('user-page-content')
     <div class="row my-card-container gap-1 py-3 mt-6">
-        <!-- single product starts -->
-        @foreach ($carts as $cart)
-            {{-- @dd($cart) --}}
-            <div class="card cart-product-card col-sm-12 col-md-5 col-lg-3 p-0" data-cart-id="{{ $cart->id }}"
-                data-cart-quantity = "{{ $cart->quantity }}">
-                <img class="card-img-top" src="{{ $cart->item->picture_path }}" alt="Card image cap" />
+        @if ($carts->isEmpty())
+            <div class="text-center py-5">
+                <img src="{{asset('images/cart/empty-cart.svg')}}" alt="Empty cart illustration" width="150" height="150"
+                    style="object-fit: contain;" class="mx-auto mb-4">
+                <h4 class="text-primary-color">Your cart is empty</h4>
+                <p class="text-primary-color">Looks like you haven’t added anything yet.</p>
 
-                <div class="card-body pb-0">
-                    <h5 class="Product-title">{{ $cart->item->title }}</h5>
-                    <p class="product-desc p-0 m-0">
-                        {{ $cart?->item?->description }}
-                    </p>
-                    <p class="product-cat p-0 m-0">
-                        <i class="fa-solid fa-seedling me-1 text-success"></i>{{ $cart?->item->category->category_name }}
-                        <i class="fa-solid fa-tags text-primary-color ms-2"></i>
-                        Bestseller
-                    </p>
-                    <p class="product-cat text-dark fw-bold p-0 m-0">
-                        <i
-                            class="fa-solid fa-warehouse me-1 text-primary-color"></i>{{ $cart?->item?->is_available ? 'Instock' : 'Outofstock' }}
-                    </p>
-                    <div class="btn-group py-2" role="group" aria-label="Quantity control">
-                        <!-- Plus button -->
-                        <button type="button" class="btn btn-outline-danger fs-sm py-0 rounded-start QuantityPlusBtn">
-                            +
-                        </button>
-
-                        <!-- Quantity display -->
-                        <button type="button" class="btn btn-outline-secondary py-0 rounded-0 QuantityDisplayBtn" disabled>
-                            {{ $cart->quantity }}
-                        </button>
-
-                        <!-- Minus button -->
-                        <button type="button" class="btn btn-outline-danger py-0 rounded-end QuantityMinusBtn">
-                            -
-                        </button>
-                    </div>
-                    <p class="product-price-details">
-                        <span> Single Item's Price : </span>
-                        <span class=""> &#8377; {{ $cart->item_price }}/- </span>
-                        <span class="text-decoration-line-through opacity-75 ms-2">
-                            &#8377; {{ $cart?->item->mrp }}
-                        </span>
-                        <span class="text-success"> {{ $cart->item->discount_percentage }}% off</span>
-                    </p>
-                    <p class="product-price-details">
-                        <span> Total Price : </span>
-                        <span class="total-amount"> &#8377; {{ $cart->total_amount }} </span>
-                        <span class="opacity-75 ms-2"> You saved &#8377; </span>
-                        <span class="text-success total-discount">{{ $cart->item_total_discount }}</span>
-                    </p>
-                </div>
-                <button class="orderNowButton add2cartbtn">
-                    <i class="fa-solid fa-cart-plus mx-2"></i>Order Now
-                </button>
+                <a href="{{ route('meals') }}" class="btn mt-3 phoneBtn">
+                    Browse Meals
+                </a>
             </div>
-        @endforeach
+        @else
+            <!-- single product starts -->
+            @foreach ($carts as $cart)
+                {{-- @dd($cart) --}}
+                <div class="card cart-product-card col-sm-12 col-md-5 col-lg-3 p-0" data-cart-id="{{ $cart->id }}"
+                    data-cart-quantity = "{{ $cart->quantity }}">
+                    <img class="card-img-top" src="{{ $cart->item->picture_path }}" alt="Card image cap" />
 
+                    <div class="card-body pb-0">
+                        <h5 class="Product-title">{{ $cart->item->title }}</h5>
+                        <p class="product-desc p-0 m-0">
+                            {{ $cart?->item?->description }}
+                        </p>
+                        <p class="product-cat p-0 m-0">
+                            <i
+                                class="fa-solid fa-seedling me-1 text-success"></i>{{ $cart?->item->category->category_name }}
+                            <i class="fa-solid fa-tags text-primary-color ms-2"></i>
+                            Bestseller
+                        </p>
+                        <p class="product-cat text-dark fw-bold p-0 m-0">
+                            <i
+                                class="fa-solid fa-warehouse me-1 text-primary-color"></i>{{ $cart?->item?->is_available ? 'Instock' : 'Outofstock' }}
+                        </p>
+                        <div class="btn-group py-2" role="group" aria-label="Quantity control">
+                            <!-- Plus button -->
+                            <button type="button" class="btn btn-outline-danger fs-sm py-0 rounded-start QuantityPlusBtn">
+                                +
+                            </button>
+
+                            <!-- Quantity display -->
+                            <button type="button" class="btn btn-outline-secondary py-0 rounded-0 QuantityDisplayBtn"
+                                disabled>
+                                {{ $cart->quantity }}
+                            </button>
+
+                            <!-- Minus button -->
+                            <button type="button" class="btn btn-outline-danger py-0 rounded-end QuantityMinusBtn">
+                                -
+                            </button>
+                        </div>
+                        <p class="product-price-details">
+                            <span> Single Item's Price : </span>
+                            <span class=""> &#8377; {{ $cart->item_price }}/- </span>
+                            <span class="text-decoration-line-through opacity-75 ms-2">
+                                &#8377; {{ $cart?->item->mrp }}
+                            </span>
+                            <span class="text-success"> {{ $cart->item->discount_percentage }}% off</span>
+                        </p>
+                        <p class="product-price-details">
+                            <span> Total Price : </span>
+                            <span class="total-amount"> &#8377; {{ $cart->total_amount }} </span>
+                            <span class="opacity-75 ms-2"> You saved &#8377; </span>
+                            <span class="text-success total-discount">{{ $cart->item_total_discount }}</span>
+                        </p>
+                    </div>
+                    <button class="orderNowButton add2cartbtn">
+                        <i class="fa-solid fa-cart-plus mx-2"></i>Order Now
+                    </button>
+                </div>
+            @endforeach
+        @endif
         <!-- single product ends -->
     </div>
 @endsection

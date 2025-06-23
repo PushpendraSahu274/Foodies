@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\FuncCall;
 
 class User extends Authenticatable
 {
@@ -64,4 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class, 'user_id','id');
     }
     
+    public function isAdmin(){
+        return $this->role === 'admin'; //true if admin
+    }
 }
