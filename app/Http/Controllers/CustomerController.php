@@ -69,7 +69,7 @@ class CustomerController extends Controller
                 $profile_path = asset('images\costomers\default_avatar.png');
             }
 
-            $profile = '<img src="'.$profile_path.'" alt="customer image" height="50px" width="50px" style="border-radius: 50%; object-fit: cover;">';
+            $profile = '<img src="'.$profile_path.'" alt="customer image" height="70px" width="70px" style="border-radius: 50%; object-fit: cover;">';
 
             $action = '<button class="btn btn-sm btn-primary view-profile-btn"
                             data-id="' . $customer->id . '"

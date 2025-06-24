@@ -117,15 +117,16 @@
                             <div class="col-sm-12 my-2">
                                 <div class="userProfile bg-level-2 p-1 rounded shadow-lg">
                                     <div class="card p-3 bg-level-2" style="width: 100%">
-                                        <img src="{{ $profile->profile }}"
-                                            class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"
-                                            alt="..." 
-                                            id="profileImage"/>
+                                        <img src="{{ $profile->profile_path }}"
+                                            class="img-fluid rounded-circle d-block mx-auto"
+                                            style="width: 96px; height: 96px;" alt="Profile Picture"
+                                            id="profileImage" />
                                         <div class="card-body">
                                             <h5 class="card-title text-center text-white" id="profileName">
                                                 {{ $profile ? $profile->name : 'admin-name' }}
                                             </h5>
-                                            <h5 class="card-title text-center fs-5 fw-normal opacity-75 text-white" id="profileEmail">
+                                            <h5 class="card-title text-center fs-5 fw-normal opacity-75 text-white"
+                                                id="profileEmail">
                                                 {{ $profile ? $profile->email : 'admin-email' }}
                                             </h5>
                                             <p class="text-center">
@@ -142,8 +143,8 @@
                                                     <span class="fw-bold bg-brown p-2 rounded">Contact Number</span>
                                                     <br />
                                                     <br />
-                                                    <span
-                                                        class="text-light" id="profilePhone">{{ $profile ? $profile->phone : 'admin-contact' }}</span>
+                                                    <span class="text-light"
+                                                        id="profilePhone">{{ $profile ? $profile->phone : 'admin-contact' }}</span>
                                                 </p>
                                                 <p class="lh-lg-lg">
                                                     <span class="fw-bold bg-brown p-2 rounded">About</span>
@@ -172,18 +173,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script> 
-    function updateProfile(data){
+    <script>
+        function updateProfile(data) {
             $('#profileImage').attr('src', data.profile);
             $('#profileName').text(data.name);
             $('#profileEmail').text(data.email);
             $('#profilePhone').text(data.phone);
             $('#profileDescription').text(data.description);
-    }
+        }
     </script>
 
     <script>
@@ -224,7 +225,7 @@
             });
         });
     </script>
-     <!-- DataTables CSS -->
+    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
     <!-- jQuery -->
@@ -232,8 +233,10 @@
 
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="/js/previewImage.js"> </script>
-    <script> previewImage('previewImage','dp')</script>
+    <script src="/js/previewImage.js"></script>
+    <script>
+        previewImage('previewImage', 'dp')
+    </script>
     @yield('admin-script-content')
 
 </body>

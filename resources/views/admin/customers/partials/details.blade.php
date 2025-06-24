@@ -2,7 +2,7 @@
     <div class="row text-center mb-4">
         <div class="col-12">
             <img src="{{ $customer->profile_path }}" alt="Profile Picture" class="rounded-circle shadow-sm mb-2"
-                width="100" height="100">
+                width="100px" height="100px">
             <h5 class="fw-bold text-danger mb-0">{{ $customer->name }}</h5>
             <small class="text-muted d-block">Customer ID: {{ $customer->id }}</small>
         </div>
