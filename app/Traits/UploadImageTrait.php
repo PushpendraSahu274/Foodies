@@ -7,11 +7,12 @@ use Cloudinary\Cloudinary;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 trait UploadImageTrait
 {
 
-    public function UploadImage(UploadedFile $file, string $directoryName)
+    public function uploadImageOnLocal(UploadedFile $file, string $directoryName)
     {
 
         $fileName = now()->format('d-m-Y') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -21,6 +22,28 @@ trait UploadImageTrait
         return $path;
     }
 
+    public function isImageExistsInLocal(String $filePath): bool
+    {
+        return Storage::disk('public')->exists($filePath);
+    }
+
+    public function getLocalImageUrl(String $filePath): ?string
+    {
+        if ($this->isImageExistsInLocal($filePath)) {
+            return Storage::url($filePath);
+        }
+
+        return Storage::url('images\costomers\default_avatar.png');
+    }
+
+    public function deleteImageFromLocal(String $filePath): bool
+    {
+        if ($this->isImageExistsInLocal($filePath)) {
+            return Storage::disk('public')->delete($filePath);
+        }
+
+        return false;
+    }
 
     public function uploadToCloudinary(UploadedFile $file, string $folder)
     {
@@ -92,5 +115,4 @@ trait UploadImageTrait
             return null;
         }
     }
-
 }

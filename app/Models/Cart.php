@@ -34,7 +34,7 @@ class Cart extends Model
         $discountPercentage = $meal->discount_percentage ?? 0;
         $price = $meal->mrp - (($meal->mrp * $discountPercentage) / 100);
 
-        return $this->quantity * $price;
+        return round($this->quantity * $price,2);
     }
 
     public function getItemPriceAttribute()

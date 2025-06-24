@@ -13,6 +13,17 @@ class CustomerController extends Controller
     {
         $customers = User::where("role", 'user')->get();
         $profile = User::where('role', 'admin')->first();
+
+        $customers->map(function($customer){
+            if($customer->avatar){
+                $customer->profile_path = $customer->avatar;
+            }
+            elseif($customer->profile_path){
+                $customer->profile_path = $this->getLocalImageUrl($customer->profile_path);
+            }
+            return $customer;
+        });
+        
         return view('admin.customers.index', compact('customers', 'profile'));
     }
 
@@ -40,10 +51,19 @@ class CustomerController extends Controller
 
         foreach ($customers as $customer) {
 
+            // if ($customer->avatar) {
+            //     $profile_path = $customer->avatar; //signup with google
+            // } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
+            //     $profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+            // } else {
+            //     // return the url for default image
+            //     $profile_path = asset('images\costomers\default_avatar.png');
+            // }
+
             if ($customer->avatar) {
                 $profile_path = $customer->avatar; //signup with google
-            } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
-                $profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+            } elseif ($customer->profile_path && $this->isImageExistsInLocal($customer->profile_path)) {
+                $profile_path = $this->getLocalImageUrl($customer->profile_path);
             } else {
                 // return the url for default image
                 $profile_path = asset('images\costomers\default_avatar.png');
@@ -82,14 +102,23 @@ class CustomerController extends Controller
     {
         $customer = User::findOrFail($id); // or Customer model
 
+        // if ($customer->avatar) {
+        //     $customer->profile_path = $customer->avatar; //signup with google avatar
+        // } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
+        //     $customer->profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+        // } else {
+        //     // return the url for default image
+        //     $customer->profile_path = asset('images\costomers\default_avatar.png');
+        // }
         if ($customer->avatar) {
-            $customer->profile_path = $customer->avatar; //signup with google
-        } elseif ($customer->profile_path && $this->isCloudinaryResourceExists($customer->profile_path)) {
-            $customer->profile_path = $this->getCloudinaryResourceUrl($customer->profile_path);
+            $customer->profile_path = $customer->avatar; //signup with google avatar
+        } elseif ($customer->profile_path && $this->isImageExistsInLocal($customer->profile_path)) {
+            $customer->profile_path = $this->getLocalImageUrl($customer->profile_path);
         } else {
             // return the url for default image
             $customer->profile_path = asset('images\costomers\default_avatar.png');
         }
+        // dd($customer->profile_path);
         return view('admin.customers.partials.details', compact('customer'));
     }
 

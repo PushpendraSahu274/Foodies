@@ -89,7 +89,7 @@
                             <li class="nav-item">
                                 <a class="btn phoneBtn fw-bold" href="#" tabindex="-1"><i
                                         class="fa-solid fa-phone me-2 fa-shake"></i>+91
-                                    8899776600</a>
+                                    8127584253</a>
                             </li>
                         </ul>
                     </div>
@@ -841,7 +841,7 @@
                     <p class="text-white opacity-75 pb-0 mb-0">
                         2025. Foodies.All rights reserved
                     </p>
-                    <p class="text-white opacity-50">Developed by Raj Mishra</p>
+                    <p class="text-white opacity-50">Frontend developed by Raj Mishra & Backend developed by Pushpendra Sahu</p>
                 </div>
             </div>
         </footer>

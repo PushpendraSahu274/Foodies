@@ -25,11 +25,19 @@ class OrderController extends Controller
         if (Auth::user()->role == 'admin') {
             $orders = Order::get();
             $profile = User::where("role", 'admin')->first();
+            if($profile->avatar){
+                $profile->profile_path = $profile->avatar;
+            }
+            else{
+                $profile->profile_path = $this->getLocalImageUrl($profile->profile_path);
+            }
             return view('admin.orders.index', compact('orders', 'profile'));
         } else {
             $user = Auth::user();
             $orders = Order::with(['items', 'items.meal', 'items.meal.category', 'address'])->where('user_id', $user->id)->get();
+            
             $orders = $orders->map(function ($order) {
+                // dd($order->items->first()->picture_path);
                 return [
                     'order_id' => $order->id,
                     'total_amount' => $order->total_amount,
@@ -53,8 +61,11 @@ class OrderController extends Controller
                         return [
                             'id' => $item->id, //returning the order_item id
                             'meal_name' => $item->meal_name,
-                            'picture_path' => $item->picture_path && $this->isCloudinaryResourceExists($item->picture_path)
-                                ? $this->getCloudinaryResourceUrl($item->picture_path)
+                            // 'picture_path' => $item->picture_path && $this->isCloudinaryResourceExists($item->picture_path)
+                            //     ? $this->getCloudinaryResourceUrl($item->picture_path)
+                            //     : null,
+                            'picture_path' => $item->picture_path && $this->isImageExistsInLocal($item->picture_path)
+                                ? $this->getLocalImageUrl($item->picture_path)
                                 : null,
                             'quantity' => $item->quantity,
                             'price' => $item->price,
@@ -69,7 +80,38 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['items', 'customer'])->findOrFail($id);
+        $order = Order::with(['items', 'customer','address'])->findOrFail($id);
+        $order->items->map(function($item){
+            
+            // if($item->picture_path && $this->isCloudinaryResourceExists($item->picture_path)){
+            //     $item->picture_path = $this->getCloudinaryResourceUrl($item->picture_path);
+            // }
+            // else{
+            //     $item->picute_path = '<img class="thumb" alt="no-image" />';
+            // }
+            
+            if($item->picture_path && $this->isImageExistsInLocal($item->picture_path)){
+                $item->picture_path = $this->getLocalImageUrl($item->picture_path);
+            }
+            else{
+                $item->picute_path = '<img class="thumb" alt="no-image" />';
+            }
+            return $item;
+        });
+        
+        if($order->customer->avatar){
+            $order->customer->profile_path = $order->customer->avatar;
+        }
+        // elseif($order->customer->profile_path && $this->isCloudinaryResourceExists($order->customer->profile_path)){
+        //     $order->customer->profile_path = $this->getCloudinaryResourceUrl($order->customer->profile_path);
+        // }
+        elseif($order->customer->profile_path && $this->isImageExistsInLocal($order->customer->profile_path)){
+            $order->customer->profile_path = $this->getLocalImageUrl($order->customer->profile_path);
+        }
+        else{
+            $order->customer->profile_path = `<img src="{{ asset('images\costomers\default_avatar.png')" alt="user-profile"  />`;
+        }
+
         return view('admin.orders.partials.details', compact('order'));
     }
 
@@ -107,9 +149,13 @@ class OrderController extends Controller
 
         $data = [];
         $sno = $request->input('start', 0) + 1;
-
+            
         foreach ($orders as $order) {
-            $profile_path = $order->profile_path == null ? 'No Image' : '<img width="50" height="50" src="' . env("APP_URL") . $order->picture_path . '" class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto"></img>';
+            if($order->picture_path && $this->isImageExistsInLocal($order->picture_path)){
+                $profile_path = '<img src="' . asset($this->getLocalImageUrl($order->picture_path)) . '" height="70px" width="70px[" alt="image" />';
+
+            }
+            
             $action =
                 '<button class="btn btn-sm btn-danger"
                 data-bs-toggle="offcanvas"

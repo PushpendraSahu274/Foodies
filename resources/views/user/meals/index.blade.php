@@ -10,6 +10,14 @@
                 <div class="col-12">
                     <h1 class="fs-5 pt-1">All Products</h1>
 
+                    <div class="input-group mb-3">
+                        <input type="search" name="search" id="searchInput" class="form-control" placeholder="Search..."
+                            aria-label="Search">
+                        <span class="input-group-text bg-white border-start-0">
+                            <i class="fa fa-search text-muted"></i>
+                        </span>
+                    </div>
+
                     <!-- Filter Form Start -->
                     <form id="filterForm" method="POST">
                         <div class="navbar navbar-expand-lg navbar-white bg-white">
@@ -70,7 +78,8 @@
                     <!-- Filter Form End -->
                     @if ($meals->isEmpty())
                         <div class="text-center py-5">
-                            <img src="{{ asset('images/meal/empty-meal.svg') }}" alt="Empty menu" width="160" class="mb-4">
+                            <img src="{{ asset('images/meal/empty-meal.svg') }}" alt="Empty menu" width="160"
+                                class="mb-4">
 
                             <h4 class="text-danger fw-bold">Oops! Our kitchen’s still cooking.</h4>
                             <p class="text-muted">We haven’t added meals here yet — but we’re working on it. Please check
@@ -98,6 +107,36 @@
 @endsection
 
 @section('user-page-script')
+    <script>
+        $(document).ready(function() {
+            $('#searchInput').on('input', function() {
+                const search = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('customer.meal.ajax') }}",
+                    type: 'POST',
+                    data: {
+                        search: search,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    },
+                    success: function(response) {
+                        $('#meal-listing').html(response.data.html);
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: xhr.responseJSON?.message || error,
+                            icon: 'error'
+                        });
+                    },
+                });
+            });
+        });
+    </script>
+
+
     <script>
         $('#filterForm').on('submit', function(event) {
             event.preventDefault(); //prevent page from submit.

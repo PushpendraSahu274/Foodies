@@ -21,7 +21,7 @@
             <!-- single product starts -->
             @foreach ($carts as $cart)
                 {{-- @dd($cart) --}}
-                <div class="card cart-product-card col-sm-12 col-md-5 col-lg-3 p-0" data-cart-id="{{ $cart->id }}"
+                <div class="card cart-product-card mx-auto col-sm-12 col-md-5 col-lg-3 my-1 p-0" data-cart-id="{{ $cart->id }}"
                     data-cart-quantity = "{{ $cart->quantity }}">
                     <img class="card-img-top" src="{{ $cart->item->picture_path }}" alt="Card image cap" />
 
@@ -59,12 +59,13 @@
                         </div>
                         <p class="product-price-details">
                             <span> Single Item's Price : </span>
-                            <span class=""> &#8377; {{ $cart->item_price }}/- </span>
+                            <span class="item-price"> &#8377; {{ $cart->item_price }}/- </span>
                             <span class="text-decoration-line-through opacity-75 ms-2">
                                 &#8377; {{ $cart?->item->mrp }}
                             </span>
                             <span class="text-success"> {{ $cart->item->discount_percentage }}% off</span>
                         </p>
+                        {{-- @dd($cart->total_amount) --}}
                         <p class="product-price-details">
                             <span> Total Price : </span>
                             <span class="total-amount"> &#8377; {{ $cart->total_amount }} </span>
@@ -109,7 +110,7 @@
                             text: response.message || 'Item removed from cart'
                         });
 
-                        $cart.remove(); // Remove item card from UI
+                        $cart.remove();
                     },
                     error: function(xhr) {
                         let message = 'Unexpected error occurred!';
@@ -143,8 +144,9 @@
                             $cart.find('.QuantityDisplayBtn').text(newQuantity);
 
                             // Update price details if returned
-                            if (response.data) {
-                                const item = response.data;
+                            if (response.cart) {
+                                const item = response.cart;
+                                console.log(item);
                                 $cart.find('.item-price').text('₹ ' + item.item_price);
                                 $cart.find('.total-amount').text('₹ ' + item.total_amount);
                                 $cart.find('.total-discount').text(item.item_total_discount);

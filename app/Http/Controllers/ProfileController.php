@@ -24,6 +24,13 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $profile = User::find($user->id);
+        if($profile->avatar){
+            $profile->profile_path = $profile->avatar; //sign up with google avatar
+        }
+        elseif($profile->profile_path){
+            $profile->profile_path = $this->getLocalImageUrl($profile->profile_path);
+        }
+
         if($user->role =='admin')
         return redirect()->back()->with(['profile' => $profile]);
 
@@ -56,15 +63,26 @@ class ProfileController extends Controller
         $profile->gender = $request->gender ?? 1;
         $profile->description = $request->description ?? $profile->description;
         $image_url = '';
+        // if ($request->hasFile('photo')) {
+            
+        //     if ($profile->profile_path && $this->isCloudinaryResourceExists($profile->profile_path)) {
+        //         $this->deleteResourceFromCloudinary($profile->profile_path);
+        //     }
+        //     $file = $request->file('photo');
+        //     $image_url = $this->uploadToCloudinary($file, 'avatar');
+        //     $profile->profile_path = $image_url;
+        // }
+
         if ($request->hasFile('photo')) {
             
-            if ($profile->profile_path && $this->isCloudinaryResourceExists($profile->profile_path)) {
-                $this->deleteResourceFromCloudinary($profile->profile_path);
+            if ($profile->profile_path && $this->isImageExistsInLocal($profile->profile_path)) {
+                $this->deleteImageFromLocal($profile->profile_path);
             }
             $file = $request->file('photo');
-            $image_url = $this->uploadToCloudinary($file, 'avatar');
+            $image_url = $this->uploadImageOnLocal($file, 'avatar');
             $profile->profile_path = $image_url;
         }
+
         if ($request->has('password')) {
             $profile->password = Hash::make($request->password);
         }
@@ -72,7 +90,8 @@ class ProfileController extends Controller
         // 19-06-2025_6854280c2740f.jpg
         $profile = [
             'id' => $profile->id,
-            'profile' => $this->isCloudinaryResourceExists($profile->profile_path) ? $this->getCloudinaryResourceUrl($profile->profile_path) : null,
+            // 'profile' => $this->isCloudinaryResourceExists($profile->profile_path) ? $this->getCloudinaryResourceUrl($profile->profile_path) : null,
+            'profile' => $this->isImageExistsInLocal($profile->profile_path) ? $this->getLocalImageUrl($profile->profile_path) : null,
             'name' => $profile->name,
             'phone' => $profile->phone,
             'description' => $profile->about,

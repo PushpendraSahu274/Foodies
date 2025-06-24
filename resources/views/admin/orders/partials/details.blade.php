@@ -2,9 +2,7 @@
     <!-- Customer Info -->
     <h6 class="text-danger fw-bold mb-3">Customer Information</h6>
     <div class="text-center mb-3">
-        <img src="{{ optional($order->customer)->profile_path
-            ? asset('storage/' . $order->customer->profile_path)
-            : asset('images/default-profile.png') }}"
+        <img src="{{$order->customer->profile_path}}"
             alt="Customer Image" class="rounded-circle" width="80" height="80">
     </div>
     <p><strong>Customer ID:</strong> {{ optional($order->customer)->id }}</p>
@@ -12,7 +10,7 @@
     <p><strong>Email:</strong> {{ optional($order->customer)->email }}</p>
     <p><strong>Phone:</strong> {{ optional($order->customer)->phone }}</p>
     <p><strong>Order Date:</strong> {{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</p>
-    <p><strong>Delivery Address:</strong> {{ $order->delivery_address ?? 'N/A' }}</p>
+    <p><strong>Delivery Address:</strong> {{ $order->address->address ?? 'N/A' }}</p>
 
     <hr>
 
@@ -20,7 +18,7 @@
     <h6 class="text-danger fw-bold mb-3">Order Information</h6>
     @foreach ($order->items as $item)
         <div class="d-flex align-items-center mb-3 border-bottom pb-2">
-            <img src="{{ asset('storage/' . $item->picture_path) }}" alt="Product Image" class="me-3 rounded"
+            <img src="{{ $item->picture_path }}" alt="Product Image" class="me-3 rounded"
                 width="70" height="70">
             <div>
                 <p class="mb-1"><strong>Product Name:</strong> {{ $item->meal_name }}</p>

@@ -27,6 +27,7 @@
                     class="bg-white rounded shadow-sm p-3 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mt-5">
                     <div class="d-flex align-items-center flex-wrap gap-2 mb-3 mb-md-0">
                         {{-- Thumbnails --}}
+                        {{-- @dd($order['order_items'][0]['picture_path']) --}}
                         @foreach ($order['order_items']->take(5) as $item)
                             <img src="{{ $item['picture_path'] ?? asset('images/default.jpg') }}" alt="Meal Image"
                                 class="rounded" style="width: 50px; height: 50px; object-fit: cover;">

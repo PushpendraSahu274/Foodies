@@ -93,9 +93,12 @@ class CartController extends Controller
                     'title' => $cart->item->title,
                     'is_available' => $cart->item->is_available,
                     'description' => $cart->item->description,
-                    'picture_path' => $cart->item->picture_path && $this->isCloudinaryResourceExists($cart->item->picture_path)
-                        ? $this->getCloudinaryResourceUrl($cart->item->picture_path)
-                        : null,
+                    // 'picture_path' => $cart->item->picture_path && $this->isCloudinaryResourceExists($cart->item->picture_path)
+                    //     ? $this->getCloudinaryResourceUrl($cart->item->picture_path)
+                    //     : null,
+                    'picture_path' => $cart->item->picture_path && $this->isImageExistsInLocal($cart->item->picture_path)
+                            ? $this->getLocalImageUrl($cart->item->picture_path)
+                            : null,
                     'mrp' => $cart->item->mrp,
                     'discount_percentage' => $cart->item->discount_percentage,
                     'category' => (Object) [
@@ -143,6 +146,7 @@ class CartController extends Controller
                 'quantity' => $quantity,
             ]);
             $cart->refresh();
+            
             DB::commit();
             // return updated total_price, total_discount
             return response()->json([
