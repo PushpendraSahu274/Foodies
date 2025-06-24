@@ -9,6 +9,7 @@ class OrderObserver
     //
     public function updating(Order $order)
     {
+        dd('coming');   
         if ($order->isDirty('status')) {
             switch ($order->status) {
                 case 'confirmed':

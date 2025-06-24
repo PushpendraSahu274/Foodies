@@ -12,7 +12,7 @@
                 <div class="userProfile bg-level-2 p-2 rounded shadow-lg">
                     <div class="card p-3 bg-level-2" style="width: 100%">
 
-                        <img src="@if ($profile->avatar) {{ $profile->avatar }} @elseif($profile->profile) {{ $profile->profile }} @else {{ asset('images/review/review-1.jpg') }} @endif"
+                        <img src="@if($profile->avatar){{ $profile->avatar }}@elseif($profile->profile){{$profile->profile}}@else{{asset('images/review/review-1.jpg')}} @endif"
                             class="card-img-top w-25 h-25 img-fluid rounded-circle mx-auto" alt="Profile Picture"
                             id="profileImage" />
                         <div class="card-body">
@@ -26,17 +26,42 @@
                                 </a>
                             </p>
                         </div>
-
                         <!-- Address Display -->
                         <div class="row address">
                             @foreach ($addresses as $index => $address)
                                 <div class="col-sm-12 mt-3">
-                                    <p class="lh-lg-lg">
-                                        <span class="fw-bold bg-brown p-2 rounded">
-                                            Delivery Address-{{ $index + 1 }}:
-                                        </span>
-                                        <br><br>
-                                        <span class="text-light">
+                                    <div class="bg-brown p-3 rounded text-light">
+                                        <!-- Address Header: Title + Default Check -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <strong>Delivery Address-{{ $index + 1 }}:</strong>
+                                                @if ($address->is_default)
+                                                    <i
+                                                        class="fa-solid fa-check bg-success rounded-circle p-1 text-light"></i>
+                                                @endif
+                                            </div>
+
+                                            <!-- Edit & Delete Icons -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <a href="#" class="text-white" data-bs-toggle="modal"
+                                                    data-bs-target="#address-modal-{{ $index + 1 }}" title="Edit">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                                <form action="{{ route('customer.address.destroy') }}" method="POST"
+                                                    class="m-0 p-0">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $address->id }}">
+                                                    <button type="submit" class="btn btn-sm text-white p-0 border-0"
+                                                        title="Delete"
+                                                        onclick="return confirm('Are you sure you want to delete this address?')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Address Text -->
+                                        <div class="mt-2">
                                             {{ $address->primary_landmark }},
                                             {{ $address->secondary_landmark }},
                                             {{ $address->address }},
@@ -44,17 +69,17 @@
                                             {{ $address->state }},
                                             {{ $address->pincode }},
                                             India
-                                            <a href="#"
-                                                class="text-white opacity-100 mx-2 my-2 px-3 text-decoration-underline"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#address-modal-{{ $index + 1 }}">Edit</a>
-                                            @if ($address->is_default)
-                                                <i class="fa-solid fa-check bg-success rounded-circle p-1 text-light"></i>
-                                            @endif
-                                        </span>
-                                    </p>
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
+
+                            <div class="text-center mt-4">
+                                <button class="btn btn-outline-none bg-white" data-bs-toggle="modal"
+                                    data-bs-target="#add-address-modal">
+                                    + Add Delivery Address
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -178,10 +203,76 @@
                 </div>
             </div>
         @endforeach
+
+        <!-- Add New Address Modal -->
+        <div class="modal fade" id="add-address-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="{{ route('customer.address.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Address</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">Primary Landmark</label>
+                                <input type="text" name="primary_landmark" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">Secondary Landmark</label>
+                                <input type="text" name="secondary_landmark" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">City</label>
+                                <input type="text" name="city" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">State</label>
+                                <input type="text" name="state" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">Pincode</label>
+                                <input type="text" name="pincode" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-primary-color">Address</label>
+                                <input type="text" name="address" class="form-control">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label text-primary-color">Remark</label>
+                                <input type="text" name="remark" class="form-control">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label text-primary-color">Phone</label>
+                                <input type="phone" name="phone" class="form-control">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label text-primary-color">Set as Default</label>
+                                <input type="checkbox" name="is_default" value="1" class="ms-2">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Add Address</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 @endsection
 
 @section('user-page-script')
+    <!-- Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
     <script>
         function updateProfile(data) {
             $('#profileImage').attr('src', data.profile);
@@ -235,4 +326,32 @@
     <script>
         previewImage('previewImage', 'dp')
     </script>
+
+    @if (session('message'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: @json(session('message')),
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        </script>
+    @endif
+
+    @if ($errors->has('error'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: @json($errors->first('error')),
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        </script>
+    @endif
 @endsection

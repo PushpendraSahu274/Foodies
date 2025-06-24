@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\FuncCall;
+use App\Models\Address;
 
 class User extends Authenticatable
 {
@@ -53,19 +54,42 @@ class User extends Authenticatable
         ];
     }
 
-    public function getProfileAttribute(){
+    public function getProfileAttribute()
+    {
         if ($this->profile_path && $this->isCloudinaryResourceExists($this->profile_path)) {
             return $this->getCloudinaryResourceUrl($this->profile_path);
         }
-        return null; 
+        return null;
     }
 
     //cart 
-    public function carts(){
-        return $this->hasMany(Cart::class, 'user_id','id');
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'user_id', 'id');
     }
-    
-    public function isAdmin(){
-        return $this->role === 'admin'; //true if admin
+
+    public function isAdmin(): bool
+    {
+        return strtolower($this->role) === 'admin'; //true if admin
+    }
+
+    //default address
+    public function default_address()
+    {
+        return $this->hasOne(Address::class, 'user_id', 'id')->where('is_default', 1);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id', 'id');
+    }
+
+    public function getAddressCountAttribute()
+    {
+        return $this->addresses->count();
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

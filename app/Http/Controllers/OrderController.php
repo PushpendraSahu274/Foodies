@@ -25,17 +25,16 @@ class OrderController extends Controller
         if (Auth::user()->role == 'admin') {
             $orders = Order::get();
             $profile = User::where("role", 'admin')->first();
-            if($profile->avatar){
+            if ($profile->avatar) {
                 $profile->profile_path = $profile->avatar;
-            }
-            else{
+            } else {
                 $profile->profile_path = $this->getLocalImageUrl($profile->profile_path);
             }
             return view('admin.orders.index', compact('orders', 'profile'));
         } else {
             $user = Auth::user();
             $orders = Order::with(['items', 'items.meal', 'items.meal.category', 'address'])->where('user_id', $user->id)->get();
-            
+
             $orders = $orders->map(function ($order) {
                 // dd($order->items->first()->picture_path);
                 return [
@@ -80,39 +79,86 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['items', 'customer','address'])->findOrFail($id);
-        $order->items->map(function($item){
-            
-            // if($item->picture_path && $this->isCloudinaryResourceExists($item->picture_path)){
-            //     $item->picture_path = $this->getCloudinaryResourceUrl($item->picture_path);
-            // }
-            // else{
-            //     $item->picute_path = '<img class="thumb" alt="no-image" />';
-            // }
-            
-            if($item->picture_path && $this->isImageExistsInLocal($item->picture_path)){
-                $item->picture_path = $this->getLocalImageUrl($item->picture_path);
-            }
-            else{
-                $item->picute_path = '<img class="thumb" alt="no-image" />';
-            }
-            return $item;
-        });
-        
-        if($order->customer->avatar){
-            $order->customer->profile_path = $order->customer->avatar;
-        }
-        // elseif($order->customer->profile_path && $this->isCloudinaryResourceExists($order->customer->profile_path)){
-        //     $order->customer->profile_path = $this->getCloudinaryResourceUrl($order->customer->profile_path);
-        // }
-        elseif($order->customer->profile_path && $this->isImageExistsInLocal($order->customer->profile_path)){
-            $order->customer->profile_path = $this->getLocalImageUrl($order->customer->profile_path);
-        }
-        else{
-            $order->customer->profile_path = `<img src="{{ asset('images\costomers\default_avatar.png')" alt="user-profile"  />`;
-        }
+        if (Auth::check() && strtolower(Auth::user()->role) === 'admin') {
+            $order = Order::with(['items', 'customer', 'address'])->findOrFail($id);
+            $order->items->map(function ($item) {
 
-        return view('admin.orders.partials.details', compact('order'));
+                // if($item->picture_path && $this->isCloudinaryResourceExists($item->picture_path)){
+                //     $item->picture_path = $this->getCloudinaryResourceUrl($item->picture_path);
+                // }
+                // else{
+                //     $item->picute_path = '<img class="thumb" alt="no-image" />';
+                // }
+
+                if ($item->picture_path && $this->isImageExistsInLocal($item->picture_path)) {
+                    $item->picture_path = $this->getLocalImageUrl($item->picture_path);
+                } else {
+                    $item->picute_path = '<img class="thumb" alt="no-image" />';
+                }
+                return $item;
+            });
+
+            if ($order->customer->avatar) {
+                $order->customer->profile_path = $order->customer->avatar;
+            }
+            // elseif($order->customer->profile_path && $this->isCloudinaryResourceExists($order->customer->profile_path)){
+            //     $order->customer->profile_path = $this->getCloudinaryResourceUrl($order->customer->profile_path);
+            // }
+            elseif ($order->customer->profile_path && $this->isImageExistsInLocal($order->customer->profile_path)) {
+                $order->customer->profile_path = $this->getLocalImageUrl($order->customer->profile_path);
+            } else {
+                $order->customer->profile_path = `<img src="{{ asset('images\costomers\default_avatar.png')" alt="user-profile"  />`;
+            }
+
+            return view('admin.orders.partials.details', compact('order'));
+        } else {
+            $order_id = $id;
+            $user = Auth::user();
+            $user = User::find($user->id);
+            $order = $user->orders()->with(['items','address'])->where('id',$order_id)->firstOrFail();
+
+            $formattedOrder =  (object)[
+                    'id' => $order->id,
+                    'items_count' => $order->items?->count(),
+                    'total_amount' => $order->total_amount,
+                    'status' => $order->status,
+                    'placed_at' => $order->order_place_at,
+                    'confirmed_at' => $order->order_confirmed_at,
+                    'delivered_at' => $order->order_delivered_at,
+                    'cancelled_at' => $order->order_cancelled_at,
+                    'note' => $order->note,
+                    'address' => (Object)[
+                        'id' => $order?->address?->id,
+                        'primary_landmark' => $order?->address?->primary_landmark,
+                        'secondry_landmark' => $order?->address?->secondary_landmark,
+                        'city' => $order?->address?->city,
+                        'state' => $order?->address?->state,
+                        'pincode' => $order?->address?->pincode,
+                        'phone' => $order?->address?->phone,
+                        'address' => $order?->address?->address,
+                        'remark' => $order?->address?->remark,
+                    ],
+                    'items' => $order->items?->map(function($item){
+                        return (Object)[
+                            'id' => $item->id,
+                            'meal_name' => $item->meal_name,
+                            'picture_path' => $item->picture_path && $this->isImageExistsInLocal($item->picture_path)
+                                ? $this->getLocalImageUrl($item->picture_path)
+                                : null,
+                            'quantity' => $item->quantity,
+                            'price' => $item->price
+                        ];
+                    }),
+                    'receiver_details' => [
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ],
+                ];
+            
+            $order = $formattedOrder;
+            return view('user.order.details',compact('order'));
+           
+        }
     }
 
     public function listing(Request $request)
@@ -149,13 +195,12 @@ class OrderController extends Controller
 
         $data = [];
         $sno = $request->input('start', 0) + 1;
-            
-        foreach ($orders as $order) {
-            if($order->picture_path && $this->isImageExistsInLocal($order->picture_path)){
-                $profile_path = '<img src="' . asset($this->getLocalImageUrl($order->picture_path)) . '" height="70px" width="70px[" alt="image" />';
 
+        foreach ($orders as $order) {
+            if ($order->picture_path && $this->isImageExistsInLocal($order->picture_path)) {
+                $profile_path = '<img src="' . asset($this->getLocalImageUrl($order->picture_path)) . '" height="70px" width="70px[" alt="image" />';
             }
-            
+
             $action =
                 '<button class="btn btn-sm btn-danger"
                 data-bs-toggle="offcanvas"
@@ -189,14 +234,40 @@ class OrderController extends Controller
 
     public function update_status(Request $request)
     {
-
-        Order::where('id', $request->id)
-            ->update(['status' => $request->status]);
-
-        return response()->json([
-            'sucess' => true,
-            'message' => 'Order status marked as ' . $request->status,
+        $request->validate([
+            'status' => 'required|in:confirmed,delivered,cancelled',
+            'id' => 'required',
         ]);
+        try {
+            DB::beginTransaction();
+            $order = Order::findOrFail($request->id);
+            $order->status = $request->status;
+            //update the time stamp
+            switch ($request->status) {
+                case 'confirmed':
+                    $order->confirmed_at = now();
+                    break;
+                case 'delivered':
+                    $order->delivered_at = now();
+                    break;
+                case 'cancelled':
+                    $order->cancelled_at = now();
+                    break;
+            }
+            $order->save();
+            DB::commit();
+            return response()->json([
+                'sucess' => true,
+                'message' => 'Order status marked as ' . $request->status,
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('order status update -' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error Occured !' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function store(OrderPlaceRequest $request)
@@ -254,7 +325,7 @@ class OrderController extends Controller
             $orderItem->price = $discountedPrice;
             $orderItem->meal_id = $meal->id;
             $orderItem->save();
-            
+
 
             // decrease the meal quantity;
             $meal->quantity -= $cart->quantity;
@@ -279,5 +350,4 @@ class OrderController extends Controller
             ], 500);
         }
     }
-
 }

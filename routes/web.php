@@ -79,6 +79,7 @@ Route::middleware('auth')->prefix('customer')->name('customer.')->group(function
     //************************************************* ORDER *************************************************************
     Route::get('/order/index',[OrderController::class, 'index'])->name('order.index');
     Route::post('/order/store',[OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/show/{id}',[OrderController::class, 'show'])->name('order.show');
     
     
     //************************************************* PROFILE *************************************************************
@@ -87,7 +88,9 @@ Route::middleware('auth')->prefix('customer')->name('customer.')->group(function
     Route::get('/profile/destroy',[ProfileController::class, 'destroy'])->name('profile.destroy');
 
      //************************************************* CUSTOMER *************************************************************
-    Route::get('/address/update',[AddressController::class, 'update'])->name('address.update');
+    Route::post('/address/update/{id}',[AddressController::class, 'update'])->name('address.update');
+    Route::post('/address/store',[AddressController::class, 'store'])->name('address.store');
+    Route::post('/address/destroy',[AddressController::class,'destroy'])->name('address.destroy');
 });
 
 
