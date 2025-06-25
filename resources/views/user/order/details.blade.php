@@ -21,7 +21,7 @@
         <div class="card p-3 shadow-sm mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div><strong>{{ $order->items_count }} items in Shipment 1</strong></div>
-                <span class="text-muted small">Arrived in <span class="text-purple">15 MINS</span></span>
+                {{-- <span class="text-muted small">Arrived in <span class="text-purple">15 MINS</span></span> --}}
             </div>
 
             <div class="d-flex flex-wrap gap-3 mt-3">

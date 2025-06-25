@@ -10,6 +10,7 @@ use App\Models\MealCategory;
 use App\Models\User;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -132,6 +133,10 @@ class MealController extends Controller
         }
 
         $meal->save();
+
+        //dispatch the command to send the email to customer
+        Artisan::call('meals:notify-customers',['meal_id' => $meal->id]);
+        
         return response()->json([
             'success' => true,
             'message' => 'Product added successfully!',
